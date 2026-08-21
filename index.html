@@ -17,6 +17,7 @@
       <a href="studio.html" data-page="studio">Studio</a>
       <a href="contact.html" data-page="contact">Contact</a>
     </nav>
+    <button class="nav-toggle" type="button" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     <a href="contact.html" class="nav-cta">Start a project</a>
   </div>
 </header>
@@ -25,9 +26,9 @@
 
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">Brand &amp; Packaging Studio</p>
-      <h1>Brands born<br>with a <span class="accent">purpose.</span></h1>
-      <p class="hero-sub">Full-service brand strategy, identity, and packaging design for founders who need their brand to work as hard as it looks.</p>
+      <p class="eyebrow center">Brand &amp; Packaging Studio — Est. 2023</p>
+      <h1>Branding,<br>aligned with <span class="accent">purpose.</span></h1>
+      <p class="hero-sub">"Alinea" means to align. We build brand strategy, identity, and packaging that lines up every touchpoint behind one idea — for founders who need their brand to work as hard as it looks.</p>
       <div class="hero-cta">
         <a href="work.html" class="btn btn-primary">See the work</a>
         <a href="contact.html" class="btn btn-ghost">Start a project →</a>
@@ -44,8 +45,8 @@
 
   <section class="stats">
     <div class="wrap">
-      <div class="stats-intro">
-        <p class="eyebrow">What we believe</p>
+      <div class="stats-intro reveal">
+        <p class="eyebrow center">What we believe</p>
         <h2>Great branding balances beauty and function in the context it'll be used — work that engages, converts, and builds a real connection with the people who see it.</h2>
       </div>
       <div class="stat-row">
@@ -65,23 +66,24 @@
     </div>
   </section>
 
-  <section class="services">
+  <section class="services-index">
     <div class="wrap">
-      <div class="services-head">
-        <h2>What we do<span class="accent">.</span></h2>
-        <p style="max-width:38ch; color:var(--ink-dim); font-size:14.5px;">Four disciplines, one throughline — every deliverable built to carry the same brand voice.</p>
+      <div class="services-index-head reveal">
+        <p class="eyebrow">What we do</p>
+        <h2>Four disciplines<span class="accent">,</span> one throughline.</h2>
+        <p>Every deliverable — a wordmark, a label, a homepage — is built to carry the same brand voice. Hover a discipline to see it in the wild.</p>
       </div>
-      <div class="service-grid" id="serviceGrid">
-        <div class="service"><h3>Brand Strategy</h3><p>Positioning, naming, and workshops that find what makes a brand authentically itself.</p></div>
-        <div class="service"><h3>Visual Identity</h3><p>Logo systems, typography, and guidelines built to scale across every touchpoint.</p></div>
-        <div class="service"><h3>Packaging Design</h3><p>Shelf-ready packaging systems that turn a glance into a sale.</p></div>
-        <div class="service"><h3>Web Design</h3><p>Websites that carry the brand's voice from the homepage through checkout.</p></div>
+      <div class="services-index-body">
+        <div class="services-index-list" id="servicesIndexList"></div>
+        <div class="services-index-media">
+          <img id="servicesIndexImg" src="" alt="" />
+        </div>
       </div>
     </div>
   </section>
 
   <section class="wrap" style="padding:80px 0 20px;">
-    <div class="services-head">
+    <div class="services-head reveal">
       <h2>Selected work<span class="accent">.</span></h2>
       <a href="work.html" class="btn btn-ghost">See all projects →</a>
     </div>
@@ -91,15 +93,15 @@
   </section>
 
   <section class="mission">
-    <div class="wrap">
+    <div class="wrap reveal">
       <p class="eyebrow" style="color:rgba(235,228,220,.6);">Led by curiosity</p>
       <h2>We make <em>memorable</em> and <em>purposeful</em> branding for visionary companies.</h2>
     </div>
   </section>
 
   <section class="testimonial">
-    <div class="wrap">
-      <p class="eyebrow">From our clients</p>
+    <div class="wrap reveal">
+      <p class="eyebrow center">From our clients</p>
       <blockquote id="testimonialQuote"></blockquote>
       <cite id="testimonialCite"></cite>
     </div>
@@ -153,6 +155,7 @@
       <span>Brand &amp; packaging studio</span>
     </div>
   </div>
+  <div class="footer-word" aria-hidden="true">Alinea</div>
 </footer>
 
 <script src="data.js"></script>

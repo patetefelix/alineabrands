@@ -17,6 +17,51 @@ document.querySelectorAll(".js-year").forEach(el => {
   });
 })();
 
+/* ---------- Nav scroll state + mobile menu toggle ---------- */
+(function navBehavior(){
+  const nav = document.querySelector(".nav");
+  if (!nav) return;
+
+  const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 8);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive:true });
+
+  const toggle = nav.querySelector(".nav-toggle");
+  if (toggle){
+    toggle.addEventListener("click", () => nav.classList.toggle("menu-open"));
+    nav.querySelectorAll(".nav-links a, .nav-cta").forEach(link => {
+      link.addEventListener("click", () => nav.classList.remove("menu-open"));
+    });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 760) nav.classList.remove("menu-open");
+    });
+  }
+})();
+
+/* ---------- Cursor accent — desktop, motion-safe only ---------- */
+(function cursorDot(){
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fine = window.matchMedia("(pointer: fine)").matches;
+  if (reduceMotion || !fine) return;
+
+  const dot = document.createElement("div");
+  dot.id = "cursor-dot";
+  document.body.appendChild(dot);
+
+  let shown = false;
+  window.addEventListener("mousemove", (e) => {
+    dot.style.setProperty("--x", e.clientX + "px");
+    dot.style.setProperty("--y", e.clientY + "px");
+    if (!shown){ dot.classList.add("active"); shown = true; }
+  });
+  document.addEventListener("mouseleave", () => dot.classList.remove("active"));
+
+  document.querySelectorAll("a, button, .services-index-row").forEach(el => {
+    el.addEventListener("mouseenter", () => dot.style.setProperty("--s", "1.8"));
+    el.addEventListener("mouseleave", () => dot.style.setProperty("--s", "1"));
+  });
+})();
+
 /* ---------- Ticker (services, home page) ---------- */
 (function populateTicker(){
   const track = document.getElementById("tickerTrack");
@@ -64,6 +109,51 @@ document.querySelectorAll(".js-year").forEach(el => {
       list.querySelectorAll(".faq-item").forEach(i => i.classList.remove("open"));
       if (!wasOpen) item.classList.add("open");
     });
+  });
+})();
+
+/* ---------- Services index (home page) ----------
+   The homepage's signature interactive block: a real index of
+   the studio's four disciplines. Hovering, focusing, or tapping
+   a row brings its number, copy, and preview image forward. */
+(function servicesIndex(){
+  const list = document.getElementById("servicesIndexList");
+  const img = document.getElementById("servicesIndexImg");
+  if (!list || !img || typeof SERVICES === "undefined") return;
+
+  list.innerHTML = SERVICES.map((s, i) => `
+    <button class="services-index-row${i === 0 ? " active" : ""}" type="button" data-i="${i}">
+      <span class="services-index-num">${String(i + 1).padStart(2, "0")}</span>
+      <span>
+        <span class="services-index-title-row">
+          <span class="services-index-title">${s.title}</span>
+          <span class="services-index-arrow">→</span>
+        </span>
+        <span class="services-index-desc">${s.desc}</span>
+      </span>
+    </button>
+  `).join("");
+
+  const rows = [...list.querySelectorAll(".services-index-row")];
+
+  function activate(i){
+    rows.forEach(r => r.classList.remove("active"));
+    rows[i].classList.add("active");
+    img.style.opacity = 0;
+    window.setTimeout(() => {
+      img.src = SERVICES[i].img;
+      img.alt = SERVICES[i].title;
+      img.style.opacity = 1;
+    }, 160);
+  }
+
+  img.src = SERVICES[0].img;
+  img.alt = SERVICES[0].title;
+
+  rows.forEach((r, i) => {
+    r.addEventListener("mouseenter", () => activate(i));
+    r.addEventListener("focus", () => activate(i));
+    r.addEventListener("click", () => activate(i));
   });
 })();
 
@@ -140,7 +230,7 @@ function projectCardHTML(p){
   if (!p){
     root.innerHTML = `
       <div class="wrap" style="padding:120px 0; text-align:center;">
-        <p class="eyebrow">.not found</p>
+        <p class="eyebrow center">.not found</p>
         <h1 style="font-size:32px;">We couldn't find that project.</h1>
         <p style="margin-top:16px;"><a class="btn btn-ghost" href="work.html">← Back to all work</a></p>
       </div>

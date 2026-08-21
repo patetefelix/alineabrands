@@ -4,10 +4,10 @@
    ============================================================ */
 
 const SERVICES = [
-  { title: "Brand Strategy", desc: "Positioning, naming, and workshops that find what makes a brand authentically itself before a single pixel gets designed." },
-  { title: "Visual Identity", desc: "Logo systems, typography, and guidelines built to hold up across packaging, web, and everything in between." },
-  { title: "Packaging Design", desc: "Shelf-ready packaging systems designed to turn a glance into a sale, for single SKUs or full product lines." },
-  { title: "Web Design", desc: "Websites that carry the brand's voice from the homepage all the way through checkout." }
+  { title: "Brand Strategy", desc: "Positioning, naming, and workshops that find what makes a brand authentically itself before a single pixel gets designed.", img: "images/b-bionacoffee.jpg" },
+  { title: "Visual Identity", desc: "Logo systems, typography, and guidelines built to hold up across packaging, web, and everything in between.", img: "images/b-denali.jpg" },
+  { title: "Packaging Design", desc: "Shelf-ready packaging systems designed to turn a glance into a sale, for single SKUs or full product lines.", img: "images/b-casadeencantos.jpg" },
+  { title: "Web Design", desc: "Websites that carry the brand's voice from the homepage all the way through checkout.", img: "images/b-bark2earth.jpg" }
 ];
 
 const PROCESS = [
