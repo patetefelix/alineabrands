@@ -17,58 +17,86 @@ document.querySelectorAll(".js-year").forEach(el => {
   });
 })();
 
-/* ---------- Nav scroll state + mobile menu toggle ---------- */
-(function navBehavior(){
-  const nav = document.querySelector(".nav");
-  if (!nav) return;
+/* ---------- Numbered interactive service list (home page) ---------- */
+(function serviceList(){
+  const navEl = document.getElementById("serviceListNav");
+  const detailEl = document.getElementById("serviceDetail");
+  if (!navEl || !detailEl || typeof SERVICES === "undefined") return;
 
-  const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 8);
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive:true });
+  navEl.innerHTML = SERVICES.map((s,i) => `
+    <div class="service-row${i===0 ? " active" : ""}" data-i="${i}">
+      <span class="num">${String(i+1).padStart(2,"0")}</span>
+      <h3>${s.title}</h3>
+    </div>
+  `).join("");
 
-  const toggle = nav.querySelector(".nav-toggle");
-  if (toggle){
-    toggle.addEventListener("click", () => nav.classList.toggle("menu-open"));
-    nav.querySelectorAll(".nav-links a, .nav-cta").forEach(link => {
-      link.addEventListener("click", () => nav.classList.remove("menu-open"));
-    });
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 760) nav.classList.remove("menu-open");
-    });
+  function renderDetail(i){
+    const s = SERVICES[i];
+    detailEl.innerHTML = `
+      <div class="service-detail-media"><img src="${s.image}" alt="${s.title}" loading="lazy"></div>
+      <p>${s.desc}</p>
+      <a href="work.html" class="btn btn-primary">${s.cta} →</a>
+    `;
   }
-})();
+  renderDetail(0);
 
-/* ---------- Cursor accent — desktop, motion-safe only ---------- */
-(function cursorDot(){
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const fine = window.matchMedia("(pointer: fine)").matches;
-  if (reduceMotion || !fine) return;
-
-  const dot = document.createElement("div");
-  dot.id = "cursor-dot";
-  document.body.appendChild(dot);
-
-  let shown = false;
-  window.addEventListener("mousemove", (e) => {
-    dot.style.setProperty("--x", e.clientX + "px");
-    dot.style.setProperty("--y", e.clientY + "px");
-    if (!shown){ dot.classList.add("active"); shown = true; }
-  });
-  document.addEventListener("mouseleave", () => dot.classList.remove("active"));
-
-  document.querySelectorAll("a, button, .services-index-row").forEach(el => {
-    el.addEventListener("mouseenter", () => dot.style.setProperty("--s", "1.8"));
-    el.addEventListener("mouseleave", () => dot.style.setProperty("--s", "1"));
+  navEl.querySelectorAll(".service-row").forEach(row => {
+    row.addEventListener("mouseenter", () => {
+      navEl.querySelectorAll(".service-row").forEach(r => r.classList.remove("active"));
+      row.classList.add("active");
+      renderDetail(Number(row.dataset.i));
+    });
+    row.addEventListener("click", () => {
+      navEl.querySelectorAll(".service-row").forEach(r => r.classList.remove("active"));
+      row.classList.add("active");
+      renderDetail(Number(row.dataset.i));
+    });
   });
 })();
 
-/* ---------- Ticker (services, home page) ---------- */
-(function populateTicker(){
-  const track = document.getElementById("tickerTrack");
-  if (!track || typeof SERVICES === "undefined") return;
-  const words = SERVICES.map(s => s.title);
-  const doubled = [...words, ...words, ...words];
-  track.innerHTML = doubled.map(w => `<span>${w}</span>`).join("");
+/* ---------- Feature grid (home page) ---------- */
+(function featureGrid(){
+  const gridEl = document.getElementById("featureGrid");
+  if (!gridEl || typeof FEATURES === "undefined") return;
+  gridEl.innerHTML = FEATURES.map(f => `
+    <div class="feature-card v-${f.variant}">
+      ${f.icon}
+      <div><h4>${f.title}</h4><p>${f.desc}</p></div>
+    </div>
+  `).join("");
+})();
+
+/* ---------- Pricing grid (home page) ---------- */
+(function pricingGrid(){
+  const el = document.getElementById("pricingGrid");
+  if (!el || typeof PRICING === "undefined") return;
+  el.innerHTML = PRICING.map(p => `
+    <div class="pricing-card${p.featured ? " is-featured" : ""}">
+      ${p.featured ? '<span class="pricing-badge">Most requested</span>' : ""}
+      <h3>${p.name}</h3>
+      <p class="pricing-price">${p.price}</p>
+      <ul>${p.items.map(i => `<li>${i}</li>`).join("")}</ul>
+      <a href="contact.html" class="btn ${p.featured ? "btn-primary" : "btn-ghost"}" style="width:100%; justify-content:center; margin-top:24px;">Start a project →</a>
+    </div>
+  `).join("");
+})();
+
+/* ---------- Comparison table (home page) ---------- */
+(function comparisonTable(){
+  const el = document.getElementById("comparisonTable");
+  if (!el || typeof COMPARISON === "undefined") return;
+  const header = `
+    <div class="comparison-row comparison-head">
+      <div></div>
+      ${COMPARISON.columns.map(c => `<div class="comparison-col-label${c.label === "Alinea" ? " is-alinea" : ""}">${c.label}</div>`).join("")}
+    </div>`;
+  const rows = COMPARISON.rows.map((rowLabel, i) => `
+    <div class="comparison-row">
+      <div class="comparison-row-label">${rowLabel}</div>
+      ${COMPARISON.columns.map(c => `<div class="comparison-cell${c.label === "Alinea" ? " is-alinea" : ""}">${c.values[i]}</div>`).join("")}
+    </div>
+  `).join("");
+  el.innerHTML = header + rows;
 })();
 
 /* ---------- Client / partner logo marquee ---------- */
@@ -109,51 +137,6 @@ document.querySelectorAll(".js-year").forEach(el => {
       list.querySelectorAll(".faq-item").forEach(i => i.classList.remove("open"));
       if (!wasOpen) item.classList.add("open");
     });
-  });
-})();
-
-/* ---------- Services index (home page) ----------
-   The homepage's signature interactive block: a real index of
-   the studio's four disciplines. Hovering, focusing, or tapping
-   a row brings its number, copy, and preview image forward. */
-(function servicesIndex(){
-  const list = document.getElementById("servicesIndexList");
-  const img = document.getElementById("servicesIndexImg");
-  if (!list || !img || typeof SERVICES === "undefined") return;
-
-  list.innerHTML = SERVICES.map((s, i) => `
-    <button class="services-index-row${i === 0 ? " active" : ""}" type="button" data-i="${i}">
-      <span class="services-index-num">${String(i + 1).padStart(2, "0")}</span>
-      <span>
-        <span class="services-index-title-row">
-          <span class="services-index-title">${s.title}</span>
-          <span class="services-index-arrow">→</span>
-        </span>
-        <span class="services-index-desc">${s.desc}</span>
-      </span>
-    </button>
-  `).join("");
-
-  const rows = [...list.querySelectorAll(".services-index-row")];
-
-  function activate(i){
-    rows.forEach(r => r.classList.remove("active"));
-    rows[i].classList.add("active");
-    img.style.opacity = 0;
-    window.setTimeout(() => {
-      img.src = SERVICES[i].img;
-      img.alt = SERVICES[i].title;
-      img.style.opacity = 1;
-    }, 160);
-  }
-
-  img.src = SERVICES[0].img;
-  img.alt = SERVICES[0].title;
-
-  rows.forEach((r, i) => {
-    r.addEventListener("mouseenter", () => activate(i));
-    r.addEventListener("focus", () => activate(i));
-    r.addEventListener("click", () => activate(i));
   });
 })();
 
@@ -230,7 +213,7 @@ function projectCardHTML(p){
   if (!p){
     root.innerHTML = `
       <div class="wrap" style="padding:120px 0; text-align:center;">
-        <p class="eyebrow center">.not found</p>
+        <p class="badge-eyebrow">.not found</p>
         <h1 style="font-size:32px;">We couldn't find that project.</h1>
         <p style="margin-top:16px;"><a class="btn btn-ghost" href="work.html">← Back to all work</a></p>
       </div>
@@ -249,7 +232,7 @@ function projectCardHTML(p){
       <div class="wrap">
         <a class="project-back" href="work.html">← Back to all work</a>
         <div class="project-title">
-          <p class="eyebrow">${p.sector}</p>
+          <p class="badge-eyebrow">${p.sector}</p>
           <h1>${p.name}</h1>
         </div>
         <div class="project-hero-media"><img src="${p.hero}" alt="${p.name}"></div>
@@ -299,9 +282,34 @@ function projectCardHTML(p){
 
     <section class="wrap">
       <div class="next-project">
-        <span class="eyebrow" style="margin:0;">Next project</span>
+        <span class="badge-eyebrow" style="margin:0;">Next project</span>
         <a href="project.html?p=${next.slug}">${next.name} →</a>
       </div>
     </section>
   `;
+})();
+
+/* ---------- Contact form (contact.html) ----------
+   No backend on a static site, so "submitting" opens the visitor's
+   email client with the form fields pre-filled — genuinely
+   functional without needing a server. */
+(function contactForm(){
+  const form = document.getElementById("contactForm");
+  if (!form) return;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const first = data.get("firstName") || "";
+    const last = data.get("lastName") || "";
+    const email = data.get("email") || "";
+    const location = data.get("location") || "";
+    const phone = data.get("phone") || "";
+    const message = data.get("message") || "";
+
+    const subject = encodeURIComponent(`New project inquiry — ${first} ${last}`.trim());
+    const body = encodeURIComponent(
+      `Name: ${first} ${last}\nEmail: ${email}\nLocation: ${location}\nPhone: ${phone}\n\nMessage:\n${message}`
+    );
+    window.location.href = `mailto:hello@alineabrands.com?subject=${subject}&body=${body}`;
+  });
 })();

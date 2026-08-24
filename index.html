@@ -17,74 +17,49 @@
       <a href="studio.html" data-page="studio">Studio</a>
       <a href="contact.html" data-page="contact">Contact</a>
     </nav>
-    <button class="nav-toggle" type="button" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-    <a href="contact.html" class="nav-cta">Start a project</a>
+    <a href="contact.html" class="nav-cta">Contact us</a>
   </div>
 </header>
 
 <main>
 
-  <section class="hero">
-    <div class="wrap">
-      <p class="eyebrow center">Brand &amp; Packaging Studio — Est. 2023</p>
-      <h1>Branding,<br>aligned with <span class="accent">purpose.</span></h1>
-      <p class="hero-sub">"Alinea" means to align. We build brand strategy, identity, and packaging that lines up every touchpoint behind one idea — for founders who need their brand to work as hard as it looks.</p>
-      <div class="hero-cta">
-        <a href="work.html" class="btn btn-primary">See the work</a>
-        <a href="contact.html" class="btn btn-ghost">Start a project →</a>
-      </div>
-      <p class="hero-meta"><span>Working across the Americas</span><span>Based in Ciudad Ojeda, Venezuela</span></p>
+  <section class="hero wrap">
+    <p class="badge-eyebrow">Brand &amp; Packaging Studio</p>
+    <h1>Brands built<br>with a <span class="accent">purpose</span></h1>
+    <p class="hero-sub">Full-service brand strategy, identity, and packaging design for founders who need their brand to work as hard as it looks.</p>
+    <div class="hero-cta">
+      <a href="work.html" class="btn btn-primary">See the work</a>
+      <a href="contact.html" class="btn btn-ghost">Start a project →</a>
     </div>
+    <p class="hero-meta"><span>Working across the Americas</span><span>Based in Ciudad Ojeda, Venezuela</span></p>
   </section>
+  <hr class="hr" />
 
   <section class="featured wrap" id="featuredProject"></section>
 
-  <div class="ticker">
-    <div class="ticker-track" id="tickerTrack"></div>
-  </div>
-
-  <section class="stats">
+  <section class="services">
     <div class="wrap">
-      <div class="stats-intro reveal">
-        <p class="eyebrow center">What we believe</p>
-        <h2>Great branding balances beauty and function in the context it'll be used — work that engages, converts, and builds a real connection with the people who see it.</h2>
+      <div class="services-head">
+        <p class="badge-eyebrow" style="margin:0;">Our Services</p>
       </div>
-      <div class="stat-row">
-        <div class="stat">
-          <b>24+</b>
-          <p>Brands built from 0→1, across food &amp; drink, wellness, hospitality, and retail.</p>
-        </div>
-        <div class="stat">
-          <b>4</b>
-          <p>Cities across the Americas our studio works from — Medellín, Houston, Ciudad Ojeda, Punto Fijo.</p>
-        </div>
-        <div class="stat">
-          <b>2</b>
-          <p>New project slots each month — we work hands-on rather than running volume.</p>
-        </div>
+      <h2 style="margin-bottom:48px;">What we do</h2>
+      <div class="service-layout">
+        <div class="service-list-nav" id="serviceListNav"></div>
+        <div class="service-detail" id="serviceDetail"></div>
       </div>
     </div>
   </section>
 
-  <section class="services-index">
-    <div class="wrap">
-      <div class="services-index-head reveal">
-        <p class="eyebrow">What we do</p>
-        <h2>Four disciplines<span class="accent">,</span> one throughline.</h2>
-        <p>Every deliverable — a wordmark, a label, a homepage — is built to carry the same brand voice. Hover a discipline to see it in the wild.</p>
-      </div>
-      <div class="services-index-body">
-        <div class="services-index-list" id="servicesIndexList"></div>
-        <div class="services-index-media">
-          <img id="servicesIndexImg" src="" alt="" />
-        </div>
-      </div>
+  <section class="wrap" style="padding-top:0;">
+    <div class="feature-intro">
+      <h2>Driving purposeful brands through strategy, craft, and a studio that stays hands-on.</h2>
     </div>
+    <div class="feature-grid" id="featureGrid"></div>
   </section>
 
-  <section class="wrap" style="padding:80px 0 20px;">
-    <div class="services-head reveal">
-      <h2>Selected work<span class="accent">.</span></h2>
+  <section class="wrap" style="padding-bottom:24px;">
+    <div class="services-head">
+      <h2 style="text-transform:none; font-size:clamp(26px,3.4vw,36px);">Selected work</h2>
       <a href="work.html" class="btn btn-ghost">See all projects →</a>
     </div>
   </section>
@@ -92,32 +67,59 @@
     <div class="project-grid" id="workPreviewGrid" style="padding-bottom:80px;"></div>
   </section>
 
-  <section class="mission">
-    <div class="wrap reveal">
-      <p class="eyebrow" style="color:rgba(235,228,220,.6);">Led by curiosity</p>
-      <h2>We make <em>memorable</em> and <em>purposeful</em> branding for visionary companies.</h2>
+  <section class="pricing">
+    <div class="wrap">
+      <div class="services-head">
+        <p class="badge-eyebrow" style="margin:0;">Service Packages</p>
+      </div>
+      <h2 style="margin-bottom:16px;">Straightforward scope, no surprise invoices</h2>
+      <p style="max-width:52ch; color:var(--ink-dim); font-size:14.5px; margin-bottom:48px;">Every project is scoped to the brand, not a template — these are starting points to give you a real sense of investment before we talk.</p>
+      <div class="pricing-grid" id="pricingGrid"></div>
     </div>
   </section>
 
-  <section class="testimonial">
-    <div class="wrap reveal">
-      <p class="eyebrow center">From our clients</p>
-      <blockquote id="testimonialQuote"></blockquote>
-      <cite id="testimonialCite"></cite>
+  <section class="comparison">
+    <div class="wrap">
+      <div class="services-head">
+        <p class="badge-eyebrow" style="margin:0;">Why a studio</p>
+      </div>
+      <h2 style="margin-bottom:40px;">Not a freelancer. Not a big agency.</h2>
+      <div class="comparison-table" id="comparisonTable"></div>
     </div>
   </section>
 
+  <section class="testimonial wrap">
+    <div class="testimonial-head">
+      <p class="badge-eyebrow">Trusted by founders</p>
+      <h2>What clients say</h2>
+    </div>
+    <div class="testimonial-split">
+      <div class="testimonial-media"><img src="images/testimonial-pawty.jpg" alt="Pawty Animals"></div>
+      <div class="testimonial-card">
+        <blockquote id="testimonialQuote"></blockquote>
+        <div>
+          <div class="testimonial-name" id="testimonialName"></div>
+          <div class="testimonial-role" id="testimonialRole"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="partners wrap">
+    <b>24+</b>
+    <p>Brands built from 0→1, across food &amp; drink, wellness, hospitality, and retail.</p>
+  </section>
   <div class="logo-marquee">
     <div class="logo-marquee-track" id="logoMarqueeTrack"></div>
   </div>
 
-  <section class="cta-band">
-    <div class="wrap cta-inner">
-      <div>
-        <h2>Interested in working with us?</h2>
-        <p class="cta-avail">Open for new projects — 2 slots available per month.</p>
+  <section class="cta-dark">
+    <div class="wrap">
+      <h2>Ready to build a brand with staying power?</h2>
+      <p>2 project slots available each month — send a brief and let's see if it's a fit.</p>
+      <div class="hero-cta">
+        <a href="contact.html" class="btn btn-light">Start a project <span class="btn-arrow">→</span></a>
       </div>
-      <a href="contact.html" class="btn btn-light">Start a project →</a>
     </div>
   </section>
 
@@ -128,20 +130,20 @@
     <div class="footer-grid">
       <div class="footer-col">
         <a href="index.html" class="logo" style="color:var(--cream);"><span class="logo-mark" style="background:var(--cream); color:var(--ink);">a</span>Alinea</a>
-        <p style="margin-top:16px; max-width:28ch; color:rgba(235,228,220,.65); font-size:13.5px;">A brand &amp; packaging studio building purposeful identities for founders who need their brand to work as hard as it looks.</p>
+        <p style="margin-top:16px; max-width:28ch; color:rgba(243,243,241,.65); font-size:13.5px;">A brand &amp; packaging studio building purposeful identities for founders who need their brand to work as hard as it looks.</p>
       </div>
       <div class="footer-col">
-        <h4>Places</h4>
-        <p>Medellín, Colombia</p>
-        <p>Houston, US</p>
-        <p>Ciudad Ojeda, Venezuela</p>
-        <p>Punto Fijo, Venezuela</p>
-      </div>
-      <div class="footer-col">
-        <h4>Studio</h4>
+        <h4>Sitemap</h4>
+        <a href="index.html">Home</a>
         <a href="work.html">Work</a>
         <a href="studio.html">Studio</a>
         <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Email &amp; Support</h4>
+        <a href="mailto:hello@alineabrands.com">hello@alineabrands.com</a>
+        <h4 style="margin-top:20px;">Places</h4>
+        <p>Medellín · Houston<br>Ciudad Ojeda · Punto Fijo</p>
       </div>
       <div class="footer-col">
         <h4>Social</h4>
@@ -154,15 +156,16 @@
       <span>All Rights Reserved. © Alinea, <span class="js-year"></span>.</span>
       <span>Brand &amp; packaging studio</span>
     </div>
+    <div class="giant-wordmark">Alinea</div>
   </div>
-  <div class="footer-word" aria-hidden="true">Alinea</div>
 </footer>
 
 <script src="data.js"></script>
 <script src="script.js"></script>
 <script>
   document.getElementById("testimonialQuote").textContent = `"${TESTIMONIAL.quote}"`;
-  document.getElementById("testimonialCite").textContent = `${TESTIMONIAL.name} — ${TESTIMONIAL.location} · Client: ${TESTIMONIAL.client}`;
+  document.getElementById("testimonialName").textContent = TESTIMONIAL.name;
+  document.getElementById("testimonialRole").textContent = `${TESTIMONIAL.location} · Client: ${TESTIMONIAL.client}`;
 </script>
 </body>
 </html>
