@@ -33,7 +33,7 @@ document.querySelectorAll(".js-year").forEach(el => {
   function renderDetail(i){
     const s = SERVICES[i];
     detailEl.innerHTML = `
-      <div class="service-detail-media"><img src="${s.image}" alt="${s.title}" loading="lazy"></div>
+      <div class="service-detail-media"><img src="${s.img}" alt="${s.title}" loading="lazy"></div>
       <p>${s.desc}</p>
       <a href="work.html" class="btn btn-primary">${s.cta} →</a>
     `;
@@ -58,8 +58,8 @@ document.querySelectorAll(".js-year").forEach(el => {
 (function featureGrid(){
   const gridEl = document.getElementById("featureGrid");
   if (!gridEl || typeof FEATURES === "undefined") return;
-  gridEl.innerHTML = FEATURES.map(f => `
-    <div class="feature-card v-${f.variant}">
+  gridEl.innerHTML = FEATURES.map((f,i) => `
+    <div class="feature-card v-${f.variant} reveal" style="--i:${i}">
       ${f.icon}
       <div><h4>${f.title}</h4><p>${f.desc}</p></div>
     </div>
@@ -70,8 +70,8 @@ document.querySelectorAll(".js-year").forEach(el => {
 (function pricingGrid(){
   const el = document.getElementById("pricingGrid");
   if (!el || typeof PRICING === "undefined") return;
-  el.innerHTML = PRICING.map(p => `
-    <div class="pricing-card${p.featured ? " is-featured" : ""}">
+  el.innerHTML = PRICING.map((p,i) => `
+    <div class="pricing-card${p.featured ? " is-featured" : ""} reveal" style="--i:${i}">
       ${p.featured ? '<span class="pricing-badge">Most requested</span>' : ""}
       <h3>${p.name}</h3>
       <p class="pricing-price">${p.price}</p>
@@ -97,6 +97,61 @@ document.querySelectorAll(".js-year").forEach(el => {
     </div>
   `).join("");
   el.innerHTML = header + rows;
+})();
+
+/* ---------- Timeline (Gantt-style, studio page) ---------- */
+(function timelineChart(){
+  const el = document.getElementById("timelineChart");
+  if (!el || typeof TIMELINE === "undefined" || typeof TIMELINE_COLUMNS === "undefined") return;
+
+  const cols = TIMELINE_COLUMNS.length;
+  el.style.setProperty("--tl-cols", cols);
+
+  const head = `<div class="tl-head" style="text-align:left;">Phase</div>` +
+    TIMELINE_COLUMNS.map(c => `<div class="tl-head">${c}</div>`).join("");
+
+  const rows = TIMELINE.map(row => {
+    let cells = "";
+    for (let i = 1; i <= cols; i++){
+      const inSpan = i >= row.start && i < row.start + row.span;
+      cells += `<div class="tl-cell">${inSpan ? `<div class="tl-bar${row.optional ? " tl-optional" : ""}"></div>` : ""}</div>`;
+    }
+    return `<div class="tl-row-label">${row.label}</div>${cells}`;
+  }).join("");
+
+  el.innerHTML = head + rows;
+})();
+
+/* ---------- Positioning statement (home page) ---------- */
+(function positioningStatement(){
+  const el = document.getElementById("positioningStatement");
+  if (!el || typeof POSITIONING === "undefined") return;
+  const p = POSITIONING;
+  el.innerHTML = `
+    <blockquote>To <em>${p.audience}</em>, Alinea is the <em>${p.category}</em> that provides <em>${p.offer}</em> — because <span class="fill">${p.belief}</span></blockquote>
+  `;
+})();
+
+/* ---------- Onboarding steps (contact page) ---------- */
+(function onboardingSteps(){
+  const el = document.getElementById("onboardingTrack");
+  if (!el || typeof ONBOARDING === "undefined") return;
+  el.innerHTML = ONBOARDING.map((s,i) => `
+    <div class="onboarding-step reveal" style="--i:${i}"><h4>${s.title}</h4><p>${s.desc}</p></div>
+  `).join("");
+})();
+
+/* ---------- Scope by stage (studio page) ---------- */
+(function scopeStages(){
+  const el = document.getElementById("scopeGrid");
+  if (!el || typeof SCOPE_STAGES === "undefined") return;
+  el.innerHTML = SCOPE_STAGES.map(s => `
+    <div class="scope-item">
+      <div class="scope-required">${s.required ? "Required" : "As needed"}</div>
+      <h4>${s.name}</h4>
+      <ul>${s.items.map(i => `<li>${i}</li>`).join("")}</ul>
+    </div>
+  `).join("");
 })();
 
 /* ---------- Client / partner logo marquee ---------- */
@@ -236,6 +291,10 @@ function projectCardHTML(p){
           <h1>${p.name}</h1>
         </div>
         <div class="project-hero-media"><img src="${p.hero}" alt="${p.name}"></div>
+        ${p.gallery && p.gallery.length ? `
+        <div class="project-gallery">
+          ${p.gallery.map(src => `<img src="${src}" alt="${p.name} — detail" loading="lazy">`).join("")}
+        </div>` : ""}
 
         <div class="project-meta-row">
           <div><span>Sector</span><b>${p.sector}</b></div>
@@ -292,23 +351,38 @@ function projectCardHTML(p){
 /* ---------- Contact form (contact.html) ----------
    No backend on a static site, so "submitting" opens the visitor's
    email client with the form fields pre-filled — genuinely
-   functional without needing a server. */
+   functional without needing a server. Native HTML5 validation
+   (required / type=email) runs first via the browser. */
 (function contactForm(){
   const form = document.getElementById("contactForm");
   if (!form) return;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    if (!form.checkValidity()){ form.reportValidity(); return; }
+
     const data = new FormData(form);
     const first = data.get("firstName") || "";
     const last = data.get("lastName") || "";
     const email = data.get("email") || "";
-    const location = data.get("location") || "";
     const phone = data.get("phone") || "";
+    const company = data.get("company") || "";
+    const companyUrl = data.get("companyUrl") || "";
+    const budget = data.get("budget") || "Not specified";
+    const preferredContact = data.get("preferredContact") || "Email";
+    const services = data.getAll("services").join(", ") || "Not specified";
     const message = data.get("message") || "";
 
     const subject = encodeURIComponent(`New project inquiry — ${first} ${last}`.trim());
     const body = encodeURIComponent(
-      `Name: ${first} ${last}\nEmail: ${email}\nLocation: ${location}\nPhone: ${phone}\n\nMessage:\n${message}`
+      `Name: ${first} ${last}\n` +
+      `Email: ${email}\n` +
+      `Phone: ${phone}\n` +
+      `Company: ${company}\n` +
+      `Link: ${companyUrl}\n` +
+      `Budget: ${budget}\n` +
+      `Requested services: ${services}\n` +
+      `Preferred contact: ${preferredContact}\n\n` +
+      `About the brand:\n${message}`
     );
     window.location.href = `mailto:hello@alineabrands.com?subject=${subject}&body=${body}`;
   });
