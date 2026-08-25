@@ -17,40 +17,64 @@
       <a href="studio.html" data-page="studio">Studio</a>
       <a href="contact.html" data-page="contact">Contact</a>
     </nav>
-    <button class="nav-toggle" type="button" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-    <a href="contact.html" class="nav-cta">Start a project</a>
+    <a href="contact.html" class="nav-cta">Contact us</a>
   </div>
 </header>
 
 <main>
-  <section class="contact-hero">
-    <div class="wrap">
-      <p class="eyebrow center">Let's talk</p>
-      <h1>Let's build something with <span class="accent">purpose.</span></h1>
-      <p>Send a link to your product, website, or Figma file. If it looks like a good fit, we'll follow up to schedule a call.</p>
+  <section class="contact-hero wrap">
+    <h1>Talk with us</h1>
+  </section>
+  <hr class="hr" style="margin-top:40px;" />
 
-      <div class="contact-card reveal">
-        <div class="contact-row">
-          <span>Email</span>
-          <a href="mailto:hello@alineabrands.com">hello@alineabrands.com</a>
-        </div>
-        <div class="contact-row">
-          <span>Availability</span>
-          <b>2 slots / month</b>
-        </div>
-        <div class="contact-row">
-          <span>Starting scope</span>
-          <b>From $3,000</b>
-        </div>
-        <div class="contact-row">
-          <span>Working from</span>
-          <b>Medellín · Houston · Ciudad Ojeda · Punto Fijo</b>
-        </div>
+  <section class="wrap">
+    <div class="contact-split">
+      <div class="contact-details">
+        <h2>Contact details</h2>
+
+        <p class="contact-field-label">Email &amp; Support</p>
+        <a class="contact-value" href="mailto:hello@alineabrands.com">hello@alineabrands.com</a>
+
+        <p class="contact-field-label">Availability</p>
+        <div class="contact-value">2 slots available / month</div>
+
+        <p class="contact-field-label">Starting Scope</p>
+        <div class="contact-value">From $3,000</div>
+
+        <p class="contact-field-label">Working From</p>
+        <div class="contact-value" style="font-size:15px;">Medellín, Colombia<br>Houston, US<br>Ciudad Ojeda, Venezuela<br>Punto Fijo, Venezuela</div>
       </div>
 
-      <div class="hero-cta" style="margin-top:36px;">
-        <a href="mailto:hello@alineabrands.com" class="btn btn-primary">Email hello@alineabrands.com</a>
-        <a href="https://www.behance.net/alineabrands" target="_blank" rel="noopener" class="btn btn-ghost">See our Behance →</a>
+      <form class="form-grid" id="contactForm">
+        <div class="form-row">
+          <input class="form-input" type="text" name="firstName" placeholder="First Name*" required>
+          <input class="form-input" type="text" name="lastName" placeholder="Last Name*" required>
+        </div>
+        <input class="form-input" type="email" name="email" placeholder="Email*" required>
+        <div class="form-row">
+          <select class="form-select" name="location">
+            <option value="">Location</option>
+            <option>United States</option>
+            <option>Canada</option>
+            <option>Colombia</option>
+            <option>Venezuela</option>
+            <option>Other</option>
+          </select>
+          <input class="form-input" type="tel" name="phone" placeholder="Phone">
+        </div>
+        <textarea class="form-textarea" name="message" placeholder="Tell us about your project"></textarea>
+        <button class="form-submit" type="submit">Contact with us</button>
+        <p class="form-note">This opens your email client with your message pre-filled — the site itself has no backend, so nothing sends automatically.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="cta-dark">
+    <div class="wrap">
+      <h2>Ready to build a brand with staying power?</h2>
+      <p>Join the founders already working with Alinea on identity systems built to last.</p>
+      <div class="hero-cta">
+        <a href="https://www.behance.net/alineabrands" target="_blank" rel="noopener" class="btn btn-light">See our Behance <span class="btn-arrow">→</span></a>
       </div>
     </div>
   </section>
@@ -61,20 +85,20 @@
     <div class="footer-grid">
       <div class="footer-col">
         <a href="index.html" class="logo" style="color:var(--cream);"><span class="logo-mark" style="background:var(--cream); color:var(--ink);">a</span>Alinea</a>
-        <p style="margin-top:16px; max-width:28ch; color:rgba(235,228,220,.65); font-size:13.5px;">A brand &amp; packaging studio building purposeful identities for founders who need their brand to work as hard as it looks.</p>
+        <p style="margin-top:16px; max-width:28ch; color:rgba(243,243,241,.65); font-size:13.5px;">A brand &amp; packaging studio building purposeful identities for founders who need their brand to work as hard as it looks.</p>
       </div>
       <div class="footer-col">
-        <h4>Places</h4>
-        <p>Medellín, Colombia</p>
-        <p>Houston, US</p>
-        <p>Ciudad Ojeda, Venezuela</p>
-        <p>Punto Fijo, Venezuela</p>
-      </div>
-      <div class="footer-col">
-        <h4>Studio</h4>
+        <h4>Sitemap</h4>
+        <a href="index.html">Home</a>
         <a href="work.html">Work</a>
         <a href="studio.html">Studio</a>
         <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Email &amp; Support</h4>
+        <a href="mailto:hello@alineabrands.com">hello@alineabrands.com</a>
+        <h4 style="margin-top:20px;">Places</h4>
+        <p>Medellín · Houston<br>Ciudad Ojeda · Punto Fijo</p>
       </div>
       <div class="footer-col">
         <h4>Social</h4>
@@ -87,8 +111,8 @@
       <span>All Rights Reserved. © Alinea, <span class="js-year"></span>.</span>
       <span>Brand &amp; packaging studio</span>
     </div>
+    <div class="giant-wordmark">Alinea</div>
   </div>
-  <div class="footer-word" aria-hidden="true">Alinea</div>
 </footer>
 
 <script src="data.js"></script>

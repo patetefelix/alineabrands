@@ -4,10 +4,23 @@
    ============================================================ */
 
 const SERVICES = [
-  { title: "Brand Strategy", desc: "Positioning, naming, and workshops that find what makes a brand authentically itself before a single pixel gets designed.", img: "images/b-bionacoffee.jpg" },
-  { title: "Visual Identity", desc: "Logo systems, typography, and guidelines built to hold up across packaging, web, and everything in between.", img: "images/b-denali.jpg" },
-  { title: "Packaging Design", desc: "Shelf-ready packaging systems designed to turn a glance into a sale, for single SKUs or full product lines.", img: "images/b-casadeencantos.jpg" },
-  { title: "Web Design", desc: "Websites that carry the brand's voice from the homepage all the way through checkout.", img: "images/b-bark2earth.jpg" }
+  { title: "Brand Strategy", desc: "Positioning, naming, and workshops that find what makes a brand authentically itself before a single pixel gets designed.", image: "images/service-strategy.jpg", cta: "Explore Brand Strategy" },
+  { title: "Visual Identity", desc: "Logo systems, typography, and guidelines built to hold up across packaging, web, and everything in between.", image: "images/service-identity.jpg", cta: "Explore Visual Identity" },
+  { title: "Packaging Design", desc: "Shelf-ready packaging systems designed to turn a glance into a sale, for single SKUs or full product lines.", image: "images/service-packaging.jpg", cta: "Explore Packaging Design" },
+  { title: "Web Design", desc: "Websites that carry the brand's voice from the homepage all the way through checkout.", image: "images/service-web.jpg", cta: "Explore Web Design" }
+];
+
+/* Feature grid on the homepage — four ways of describing how the
+   studio actually works, styled as alternating lime/gray/dark cards. */
+const FEATURES = [
+  { title: "Strategy-Led", desc: "Every project starts with positioning, not a mood board — so the design has something to say.", variant: "lime",
+    icon: '<svg class="feature-icon" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="15" stroke="currentColor" stroke-width="1.4"/><circle cx="22" cy="22" r="2.4" fill="currentColor"/></svg>' },
+  { title: "Small & Hands-On", desc: "Two project slots a month, worked by the same people from kickoff to launch — not handed off mid-way.", variant: "gray",
+    icon: '<svg class="feature-icon" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="15" stroke="currentColor" stroke-width="1.4"/><path d="M22 7v30M7 22h30" stroke="currentColor" stroke-width="1" opacity=".4"/></svg>' },
+  { title: "Full-Service", desc: "Strategy, identity, packaging, and web — one studio carries the brand across every touchpoint.", variant: "dark",
+    icon: '<svg class="feature-icon" viewBox="0 0 44 44" fill="none"><circle cx="17" cy="20" r="11" stroke="currentColor" stroke-width="1.4"/><circle cx="27" cy="24" r="11" stroke="currentColor" stroke-width="1.4"/></svg>' },
+  { title: "Built to Scale", desc: "Systems designed to work at 5 SKUs or 500 — guidelines a growing team can actually use.", variant: "gray",
+    icon: '<svg class="feature-icon" viewBox="0 0 44 44" fill="none"><path d="M12 32L32 12M32 12H18M32 12V26" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>' }
 ];
 
 const PROCESS = [
@@ -342,3 +355,39 @@ const PROJECTS = [
 ];
 
 const SECTORS = ["All", "Food & Drink", "Hospitality", "Pets & Wellness", "Retail", "Corporate", "Wellness", "Fitness", "Culture", "Spirits"];
+
+/* ============================================================
+   PRICING — honest starting points. Only the $3,000 minimum is
+   a real anchor Félix gave; the rest are framed as "starting at"
+   or "custom quote" rather than invented fixed ranges.
+   ============================================================ */
+const PRICING = [
+  {
+    name: "Brand Foundation", price: "Starting at $3,000",
+    items: ["Brand strategy & positioning", "Logo design", "Visual identity system", "Brand style guide", "Essential collateral"],
+    featured: false
+  },
+  {
+    name: "Brand Experience", price: "Custom quote",
+    items: ["Everything in Foundation", "Packaging design", "Web design", "Social media templates", "Photography direction"],
+    featured: true
+  },
+  {
+    name: "Full-Service Partner", price: "Custom quote",
+    items: ["Everything in Experience", "Ongoing brand support", "Campaign & launch assets", "Sales collateral", "Priority turnaround"],
+    featured: false
+  }
+];
+
+/* ============================================================
+   COMPARISON — general industry framing, not claims about any
+   named competitor.
+   ============================================================ */
+const COMPARISON = {
+  rows: ["Access", "Team", "Pace", "Typical minimum"],
+  columns: [
+    { label: "Alinea", values: ["Direct line to the person designing your brand", "Small, senior team — same people start to finish", "2 project slots a month — real focus", "$3,000"] },
+    { label: "Freelancer", values: ["Direct, but juggling many clients solo", "Just one person", "Depends on their other work", "Varies widely"] },
+    { label: "Big Agency", values: ["Filtered through account managers", "Rotating junior staff", "Multiple accounts running in parallel", "Often $15,000+"] }
+  ]
+};

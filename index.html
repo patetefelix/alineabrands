@@ -1,171 +1,176 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Alinea — Brand & Packaging Studio</title>
-<meta name="description" content="Alinea is a brand and packaging studio building purposeful identities — strategy, visual identity, packaging, and web design for founders who need their brand to work as hard as it looks." />
+<title>Félix Patete — UI/UX &amp; Brand Designer</title>
+<meta name="description" content="Félix Patete — Mid to senior UI/UX, branding, and growth marketing designer. 13 years in design, 7 years architecting e-commerce UX on Adobe Commerce, Shopify, BigCommerce, and Shopware. Remote-ready, EST/CST-aligned, based in Medellín, Colombia." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="styles.css" />
 </head>
-<body data-page="home">
+<body>
 
-<header class="nav">
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="siteNav">
   <div class="nav-inner">
-    <a href="index.html" class="logo"><span class="logo-mark">a</span>Alinea</a>
+    <a href="#top" class="nav-logo">Félix<span class="dot">.</span></a>
     <nav class="nav-links">
-      <a href="work.html" data-page="work">Work</a>
-      <a href="studio.html" data-page="studio">Studio</a>
-      <a href="contact.html" data-page="contact">Contact</a>
+      <a href="#work">work</a>
+      <a href="#about">about</a>
+      <a href="#contact">say&nbsp;hello</a>
     </nav>
-    <a href="contact.html" class="nav-cta">Contact us</a>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark theme">
+      <span class="theme-toggle-track"><span class="theme-toggle-thumb"></span></span>
+    </button>
   </div>
 </header>
 
 <main>
 
-  <section class="hero wrap">
-    <p class="badge-eyebrow">Brand &amp; Packaging Studio</p>
-    <h1>Brands built<br>with a <span class="accent">purpose</span></h1>
-    <p class="hero-sub">Full-service brand strategy, identity, and packaging design for founders who need their brand to work as hard as it looks.</p>
-    <div class="hero-cta">
-      <a href="work.html" class="btn btn-primary">See the work</a>
-      <a href="contact.html" class="btn btn-ghost">Start a project →</a>
-    </div>
-    <p class="hero-meta"><span>Working across the Americas</span><span>Based in Ciudad Ojeda, Venezuela</span></p>
-  </section>
-  <hr class="hr" />
-
-  <section class="featured wrap" id="featuredProject"></section>
-
-  <section class="services">
-    <div class="wrap">
-      <div class="services-head">
-        <p class="badge-eyebrow" style="margin:0;">Our Services</p>
-      </div>
-      <h2 style="margin-bottom:48px;">What we do</h2>
-      <div class="service-layout">
-        <div class="service-list-nav" id="serviceListNav"></div>
-        <div class="service-detail" id="serviceDetail"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="wrap" style="padding-top:0;">
-    <div class="feature-intro">
-      <h2>Driving purposeful brands through strategy, craft, and a studio that stays hands-on.</h2>
-    </div>
-    <div class="feature-grid" id="featureGrid"></div>
-  </section>
-
-  <section class="wrap" style="padding-bottom:24px;">
-    <div class="services-head">
-      <h2 style="text-transform:none; font-size:clamp(26px,3.4vw,36px);">Selected work</h2>
-      <a href="work.html" class="btn btn-ghost">See all projects →</a>
-    </div>
-  </section>
-  <section class="wrap">
-    <div class="project-grid" id="workPreviewGrid" style="padding-bottom:80px;"></div>
-  </section>
-
-  <section class="pricing">
-    <div class="wrap">
-      <div class="services-head">
-        <p class="badge-eyebrow" style="margin:0;">Service Packages</p>
-      </div>
-      <h2 style="margin-bottom:16px;">Straightforward scope, no surprise invoices</h2>
-      <p style="max-width:52ch; color:var(--ink-dim); font-size:14.5px; margin-bottom:48px;">Every project is scoped to the brand, not a template — these are starting points to give you a real sense of investment before we talk.</p>
-      <div class="pricing-grid" id="pricingGrid"></div>
-    </div>
-  </section>
-
-  <section class="comparison">
-    <div class="wrap">
-      <div class="services-head">
-        <p class="badge-eyebrow" style="margin:0;">Why a studio</p>
-      </div>
-      <h2 style="margin-bottom:40px;">Not a freelancer. Not a big agency.</h2>
-      <div class="comparison-table" id="comparisonTable"></div>
-    </div>
-  </section>
-
-  <section class="testimonial wrap">
-    <div class="testimonial-head">
-      <p class="badge-eyebrow">Trusted by founders</p>
-      <h2>What clients say</h2>
-    </div>
-    <div class="testimonial-split">
-      <div class="testimonial-media"><img src="images/testimonial-pawty.jpg" alt="Pawty Animals"></div>
-      <div class="testimonial-card">
-        <blockquote id="testimonialQuote"></blockquote>
-        <div>
-          <div class="testimonial-name" id="testimonialName"></div>
-          <div class="testimonial-role" id="testimonialRole"></div>
-        </div>
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <p class="eyebrow is-caps reveal">UI/UX Designer — Medellín, CO</p>
+      <h1 class="reveal">
+        I architect commerce<br>
+        UX &amp; brand systems<br>
+        for teams that <span class="accent">sell&nbsp;things.</span>
+      </h1>
+      <p class="hero-sub reveal">
+        13 years in design, 7 of them architecting e-commerce UX — B2B catalogs,
+        DTC storefronts, and checkout flows on Adobe&nbsp;Commerce, Shopify,
+        BigCommerce, and Shopware. Currently at Crimson Agility, remote from
+        Medellín, Colombia — EST/CST-aligned, no visa or sponsorship required.
+      </p>
+      <div class="hero-cta reveal">
+        <a href="#work" class="btn btn-primary">
+          <span>see the work</span>
+          <span class="btn-icon">↓</span>
+        </a>
+        <a href="mailto:patetefelix@gmail.com" class="btn btn-ghost">
+          <span>say hello</span>
+          <span class="btn-icon">↗</span>
+        </a>
       </div>
     </div>
+
+    <div class="hero-stack" aria-hidden="true">
+      <img class="stack-card c1" src="images/proj-nueskes.jpg" alt="" loading="eager">
+      <img class="stack-card c2" src="images/b-bark2earth.jpg" alt="" loading="eager">
+      <img class="stack-card c3" src="images/email-brumate.jpg" alt="" loading="eager">
+    </div>
   </section>
 
-  <section class="partners wrap">
-    <b>24+</b>
-    <p>Brands built from 0→1, across food &amp; drink, wellness, hospitality, and retail.</p>
+  <section class="clients">
+    <p class="eyebrow">.clients</p>
+    <div class="marquee">
+      <div class="marquee-track" id="marqueeTrack"></div>
+    </div>
   </section>
-  <div class="logo-marquee">
-    <div class="logo-marquee-track" id="logoMarqueeTrack"></div>
-  </div>
 
-  <section class="cta-dark">
-    <div class="wrap">
-      <h2>Ready to build a brand with staying power?</h2>
-      <p>2 project slots available each month — send a brief and let's see if it's a fit.</p>
-      <div class="hero-cta">
-        <a href="contact.html" class="btn btn-light">Start a project <span class="btn-arrow">→</span></a>
+  <section class="work" id="work">
+    <div class="work-head reveal">
+      <p class="eyebrow">.work</p>
+      <h2>Ownership across UX, brand, and growth<span class="accent">.</span></h2>
+      <p class="work-intro">Three lenses on 13 years of design work — each one scoped, owned, and shipped end to end.</p>
+    </div>
+
+    <div class="tabs reveal" role="tablist" id="tabs">
+      <button class="tab active" data-tab="uiux" role="tab" aria-selected="true">
+        <span class="tab-index">01</span> UI/UX &amp; E-Commerce
+      </button>
+      <button class="tab" data-tab="brand" role="tab" aria-selected="false">
+        <span class="tab-index">02</span> Brand Identity
+      </button>
+      <button class="tab" data-tab="growth" role="tab" aria-selected="false">
+        <span class="tab-index">03</span> Growth Marketing Creative
+      </button>
+    </div>
+    <p class="tab-desc reveal" id="tabDesc"></p>
+
+    <div class="grid" id="projectGrid"></div>
+
+    <div class="subgrid-head reveal" id="subgridHead" hidden>
+      <p class="eyebrow">.more brand work</p>
+      <p>Smaller-scope identity systems — logo, packaging, and retail branding, each taken 0→1.</p>
+    </div>
+    <div class="subgrid" id="brandGallery"></div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-grid">
+      <div class="about-copy reveal">
+        <p class="eyebrow">.about</p>
+        <h2>From graphic design in Venezuela to owning e-commerce UX for US brands.</h2>
+        <p>
+          I started as a graphic designer in Maracaibo in 2014 — branding, packaging, retail
+          spaces — then moved into email design, and eventually into full UI/UX ownership for
+          e-commerce. Today I design storefronts and design systems for US-based brands on
+          Adobe Commerce, Shopify, BigCommerce, and Shopware at Crimson Agility, while running
+          <strong>Alinea</strong>, my own branding &amp; web studio, on the side.
+        </p>
+        <p>
+          I take on the projects where the interface has to carry a brand's voice, not just its
+          function — a checkout that still feels like the brand, a spec-heavy B2B catalog a
+          technician can actually navigate. Based in Medellín, Colombia, working EST/CST hours,
+          no visa or sponsorship required for US-based teams.
+        </p>
       </div>
+      <ul class="about-facts reveal">
+        <li><span class="fact-num">13</span><span class="fact-label">years in design — UI/UX, branding, email</span></li>
+        <li><span class="fact-num">7</span><span class="fact-label">years owning e-commerce UX end to end</span></li>
+        <li><span class="fact-num">4</span><span class="fact-label">platforms — Adobe Commerce, Shopify, BigCommerce, Shopware</span></li>
+        <li><span class="fact-num">2</span><span class="fact-label">languages — native Spanish, fluent English</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <p class="eyebrow reveal">.say hello</p>
+    <h2 class="reveal">Open to full-time &amp; remote<br>UI/UX, Branding &amp; Growth Marketing roles<span class="accent">.</span></h2>
+    <p class="contact-sub reveal">
+      Mid to senior level — based in Medellín, Colombia, EST/CST-aligned. International
+      B2B contractor, no visa or sponsorship required for US-based teams.
+    </p>
+    <a href="mailto:patetefelix@gmail.com" class="btn btn-primary btn-lg reveal">
+      <span>patetefelix@gmail.com</span>
+      <span class="btn-icon">↗</span>
+    </a>
+    <div class="socials reveal">
+      <a href="https://www.behance.net/alineabrands" target="_blank" rel="noopener">behance</a>
+      <span class="social-sep">/</span>
+      <a href="https://www.linkedin.com/in/felix-patete-38083385/" target="_blank" rel="noopener">linkedin</a>
     </div>
   </section>
 
 </main>
 
 <footer class="footer">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <a href="index.html" class="logo" style="color:var(--cream);"><span class="logo-mark" style="background:var(--cream); color:var(--ink);">a</span>Alinea</a>
-        <p style="margin-top:16px; max-width:28ch; color:rgba(243,243,241,.65); font-size:13.5px;">A brand &amp; packaging studio building purposeful identities for founders who need their brand to work as hard as it looks.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Sitemap</h4>
-        <a href="index.html">Home</a>
-        <a href="work.html">Work</a>
-        <a href="studio.html">Studio</a>
-        <a href="contact.html">Contact</a>
-      </div>
-      <div class="footer-col">
-        <h4>Email &amp; Support</h4>
-        <a href="mailto:hello@alineabrands.com">hello@alineabrands.com</a>
-        <h4 style="margin-top:20px;">Places</h4>
-        <p>Medellín · Houston<br>Ciudad Ojeda · Punto Fijo</p>
-      </div>
-      <div class="footer-col">
-        <h4>Social</h4>
-        <a href="https://www.behance.net/alineabrands" target="_blank" rel="noopener">Behance</a>
-        <a href="#" target="_blank" rel="noopener">Instagram</a>
-        <a href="#" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>All Rights Reserved. © Alinea, <span class="js-year"></span>.</span>
-      <span>Brand &amp; packaging studio</span>
-    </div>
-    <div class="giant-wordmark">Alinea</div>
+  <div class="footer-inner">
+    <a href="#top" class="nav-logo">Félix<span class="dot">.</span></a>
+    <nav class="footer-links">
+      <a href="#work">work</a>
+      <a href="#about">about</a>
+      <a href="#contact">say hello</a>
+    </nav>
+    <p class="footer-note">Designed &amp; built by Félix Patete. Medellín, Colombia — {YEAR}.</p>
   </div>
 </footer>
 
-<script src="data.js"></script>
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-inner">
+    <button class="modal-close" id="modalClose" aria-label="Close">
+      <span>close</span><span class="btn-icon">✕</span>
+    </button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
 <script src="script.js"></script>
-<script>
-  document.getElementById("testimonialQuote").textContent = `"${TESTIMONIAL.quote}"`;
-  document.getElementById("testimonialName").textContent = TESTIMONIAL.name;
-  document.getElementById("testimonialRole").textContent = `${TESTIMONIAL.location} · Client: ${TESTIMONIAL.client}`;
-</script>
 </body>
 </html>
