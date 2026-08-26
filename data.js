@@ -67,11 +67,6 @@ const FAQ = [
   { q: "What's the cost for a complete brand identity?", a: "It depends on scope and deadline — a full identity starts around $4,800, and a smaller logo-only sprint starts at $1,800. Get in touch with a brief and we'll send a real quote." }
 ];
 
-const TESTIMONIAL = {
-  quote: "Alinea built our site from the ground up with quick turnaround times, clear communication and incredible support from their team. As a small brand, this was exactly what we needed from a web developer, and we are lucky to continue to work with them on new projects for our site.",
-  name: "Lily Geiger", location: "New York, NY", client: "Pawty Animals"
-};
-
 /* Client / partner names for the logo marquee — brand & packaging
    clients only (this is Alinea's studio site, not the personal
    UI/UX portfolio, so the roster here is scoped to that work). */
