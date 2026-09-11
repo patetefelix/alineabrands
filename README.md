@@ -1,47 +1,99 @@
-# Alinea — brand & packaging studio site
+# Alinea Brands — updated site
 
-A real 5-page static site (no build step) — publish exactly like the felix-portfolio repo: push these files to a GitHub Pages repo, or drag-and-drop to any static host.
+A complete static website, ready for your existing GitHub Pages repository. The original Desktop files have not been changed.
 
-## Pages
-- `index.html` — Home: hero, featured project, capability ticker, stats, services, work preview, mission statement, testimonial, client marquee, CTA
-- `work.html` — Full project grid with working sector filters (Food & Drink, Hospitality, Pets & Wellness, Retail, Corporate, Wellness, Fitness, Culture, Spirits)
-- `studio.html` — Team, network of partners, 3-phase process, FAQ
-- `contact.html` — Email, availability, starting scope
-- `project.html?p=<slug>` — Dynamic case-study template; every project links here instead of needing its own static file
+## Replace the site files
 
-## Structure
-```
-data.js     → all project/team/FAQ/testimonial content — edit here, not in the HTML
-script.js   → renders grids, ticker, marquee, FAQ accordion, filters, project page
-styles.css  → design tokens + every component style
-*.html      → structural shell only; content is injected by script.js + data.js
-```
+Upload these files to the root of `patetefelix/alineabrands`, replacing the matching versions:
 
-## Design tokens — v2, re-themed to the Himon reference (Aug 2026)
-The site was re-themed at your request to match himon.framer.website's layout system: white canvas, bold black grotesque type (one family, varied weight, often uppercase), a single lime accent, numbered interactive lists, and a giant reversed wordmark closing out the footer. This **replaces** the earlier pine/cream/tan version.
+- `index.html`, `work.html`, `studio.html`, `contact.html`, `project.html`, `404.html`
+- `styles.css`, `script.js`, `data.js`
+- `alinea-icon.svg`, `alinea-wordmark.svg`, `alinea-arrow.svg`
 
-- **Colors:** white `#FFFFFF`, near-black ink `#141414`, light gray card `#F3F3F1`, and a lime accent `#D7FF3F`. The lime is a real departure from Alinea's original pine-green brand color — that's intentional, per this direction, not an oversight.
-- **Fonts:** one family throughout — **Archivo**, at varied weights (400 body, 800–900 for bold uppercase headlines) — matching Himon's own single-grotesque-family approach. Paired with **DM Mono** for small labels and numbers. Founders Grotesk (your real paid brand font) would slot in as a direct replacement for Archivo if you have a license — same job, same weight range.
-- **Signature move:** the giant outlined "Alinea" wordmark spanning the footer, carried over directly from Himon's closing "HIMON" treatment — built in pure CSS (`-webkit-text-stroke`), no image needed.
-- **New interactive piece:** the numbered 01–04 service list on the homepage now actually works — hover or click a row and the detail panel (image, description, CTA) updates. Numbers here are index tabs, not a claim that the services happen in that order (the 3-phase process on the Studio page is the one genuinely sequential list, and stays numbered for that reason).
-- **Contact page now has a real form** (First/Last Name, Email, Location, Phone, Message) matching Himon's "Talk with us" layout. Since it's a static site with no backend, submitting opens the visitor's email client with the message pre-filled — genuinely functional without needing a server.
+Keep the existing `images/` directory. The supplied icon and wordmark are unchanged and are now referenced from the root, where the supplied files belong.
 
-## Things I deliberately did NOT invent
-- **Team photos on the Studio page are placeholders**, not stock photos assigned to Luicelis/Diego/Paola's real names — your source site had unfilled "Nombre" (Name) slots, and I didn't want to misrepresent stock photography as real team members. Swap in real photos, titles, and any social links when ready.
-- **Dropped "Chat-GPT" and "Midjourney" from the "network of partners" list** — they were listed with LinkedIn buttons on your source site, which reads like an unedited placeholder row rather than intentional content. Kept Wildalys Villegas (Web Developer), who looks like a real, confirmed partner. Add back if that was actually intentional.
-- **Fixed a labeling bug from the source site**: every project card there was tagged "Casa De Encantos, Coliving Hotel" regardless of what was pictured (a CMS default that never got swapped per-project). I re-attributed each visual to its likely real project instead — see below.
-- **Instagram and LinkedIn footer links are `#` placeholders** — only Behance (`alineabrands`) was a confirmed real link.
+The five existing projects currently use your verified images hosted in `patetefelix/portfolio/images`. Both studio portraits use the existing `alineabrands/images` files. No image downloads are required for these to appear.
 
-## New projects added from your screenshots (not previously documented)
-Your featured-work screenshots showed several projects I hadn't seen before. I added them with honest, general copy (single image, no case detail available):
-- **Casa de Encantos** — re-attributed to the Valerian/Passionflower/Lemonbalm apothecary-style tea packaging (fits a tea house much better than the generic label suggested)
-- **Humboldt Brewery — Obscura** — a Vienna-style craft lager label
-- **Dreams by Sara el Kadi** — jewelry/accessories hang-tag branding
-- **Emily Bardaji** — a personal brand wordmark + art direction
-- **Pawty Animals** — enriched with the real "Jackson Tail" plush toy name spotted in your screenshot
+## Collection order
 
-## Before this goes live
-- Swap in real photography — every `images/*.jpg` path is a placeholder following the naming convention; run `grep -oP 'images/[a-zA-Z0-9_-]+\.jpg' data.js | sort -u` to see the full list.
-- Confirm `hello@alineabrands.com` is still the right inbox (pulled from your nav screenshot).
-- Fill in the Studio page team section (see above).
-- The Work page filter uses "sector" tags I assigned per project based on the industry — worth a pass to confirm they're right, especially for the newly-added projects.
+1. Solferino — in development
+2. Costella — self-initiated concept
+3. Massalino Trattoria
+4. El Paraíso Heladería
+5. Casa de Encantos
+6. Humboldt Brewery — Obscura
+7. Phila Cup Coffee
+
+Costella is explicitly described as fictional, self-initiated work by Félix. Solferino is a proposed direction, not a finished case study. No client outcomes, awards, business registration, or completed future projects have been invented. Placeholder pricing, capacity claims, and the web-development service packages have been removed.
+
+## Upload Costella artwork
+
+The filenames reserved in `data.js` are:
+
+- `images/costella-cover.jpg`
+- `images/costella-01.jpg` through `images/costella-09.jpg`
+
+Once all gallery images are uploaded, change Costella's `galleryReady` from `false` to `true`. The cover loads automatically once available, even before the gallery is enabled. While it is unavailable, visitors see a typographic project preview.
+
+These are proposed filenames, not a claim that those files already exist. If your filenames, extensions, or number of images differ, edit `hero` and `gallery` to match them exactly. Case matters on GitHub Pages.
+
+## Finish Solferino
+
+Reserved filenames:
+
+- `images/solferino-cover.jpg`
+- `images/solferino-01.jpg` through `images/solferino-06.jpg`
+
+When the project is complete, update its copy to the final direction, upload the artwork, set `galleryReady` to `true`, change `kind` from `upcoming` to `concept`, and change `status` to `Self-initiated concept`. Update `credit` to remove the in-development note. It stays clearly identified as fictional work.
+
+## Add projects through December
+
+Add another object at the start of `PROJECTS` in `data.js`. Array order controls the homepage, work page, and next-project links. Counts and filters update automatically; there is no six-project limit.
+
+Each project uses:
+
+- A unique `slug` for its `project.html?p=...` link
+- `name`, `summary`, `intro`, `sector`, `tags`, and `color`
+- `kind`: `portfolio`, `concept`, or `upcoming`
+- A truthful `status` and optional `credit`
+- `imageBase`, `hero`, `gallery`, and `galleryReady`
+- `sections`: an array of `{ title, body, items }`, with `body` and `items` optional
+
+Set `imageBase` to `https://patetefelix.github.io/alineabrands/` for the current hosted image folder, or `""` to use a local `images/` folder beside the HTML. Existing project paths can be moved to Alinea by retaining their exact filenames and changing `imageBase`.
+
+## Contact
+
+The existing address `hello@alineabrands.com` is retained. Confirm this inbox works before publishing. The form opens an email draft; it does not submit to a server or claim a message was sent. Visitors can also copy their brief. If changing the inbox, update `STUDIO.email` in `data.js` and the visible email links in the HTML files.
+
+## Included interactions
+
+- Pointer-responsive hero shelf and hover treatments
+- Responsive mobile navigation
+- Project filters and automatic collection counts
+- Expandable services and FAQ
+- Full-resolution project image viewer, with Escape and arrow-key controls
+- Scroll reveals and reading progress
+- Reduced-motion support and a persistent motion toggle
+
+## Checks performed
+
+JavaScript syntax, HTML link targets, project ordering and unique slugs, existing image filenames against GitHub's directory inventory, and live availability of the primary images and both portraits. All six HTML routes served successfully in the local preview. Browser interaction and visual testing have not been performed.
+
+
+## Scope guide and ambient-motion update
+
+The Studio page includes three interactive starting scopes. The homepage links to each one, and “Discuss this scope” carries the selection into the contact form and email brief.
+
+Edit `SCOPE_GUIDES` in `data.js` to adjust included work, planning ranges, stage descriptions, client inputs, and linked case examples. The current durations are illustrative planning estimates, not previous project measurements or fixed delivery promises:
+
+- Identity: 5–6 weeks; the example schedule shows 5.
+- Identity and packaging: 7–10 weeks; the example shows 8.
+- Brand world: 9–13 weeks; the example shows 11.
+
+Each example includes one week of review allowance. Confirm real timings in each proposal. No reference-image prices, subscriber benefits, unlimited revisions, or external agency results were adopted as Alinea offers.
+
+The new `alinea-arrow.svg` is used for project browsing, image navigation, and major next-step links. Ordinary actions use text or button styling. Include this SVG with the other root files when uploading.
+
+The beige background uses peach, sage, and lavender washes. The footer uses restrained versions over deep green. Each layer receives its own randomized path, duration, and starting position on page load; the motion does not follow the mouse. Animation pauses in background tabs and respects both the motion toggle and reduced-motion preferences. Existing hero shelf hover interactions remain independent of this background effect.
+
+Validation covers all routes and local links, removal of old arrow characters, correct example-schedule totals, and unchanged project order and existing image references. Browser visual and interaction testing remains outstanding.

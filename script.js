@@ -1,389 +1,187 @@
-/* ============================================================
-   ALINEA — shared behavior
-   Every page loads this file plus data.js. Functions check for
-   the elements they need, so one file safely serves all pages.
-   ============================================================ */
-
-/* ---------- Footer year ---------- */
-document.querySelectorAll(".js-year").forEach(el => {
-  el.textContent = new Date().getFullYear();
-});
-
-/* ---------- Nav active state ---------- */
-(function highlightNav(){
-  const page = document.body.dataset.page;
-  document.querySelectorAll(".nav-links a").forEach(a => {
-    if (a.dataset.page === page) a.classList.add("active");
-  });
-})();
-
-/* ---------- Numbered interactive service list (home page) ---------- */
-(function serviceList(){
-  const navEl = document.getElementById("serviceListNav");
-  const detailEl = document.getElementById("serviceDetail");
-  if (!navEl || !detailEl || typeof SERVICES === "undefined") return;
-
-  navEl.innerHTML = SERVICES.map((s,i) => `
-    <div class="service-row${i===0 ? " active" : ""}" data-i="${i}">
-      <span class="num">${String(i+1).padStart(2,"0")}</span>
-      <h3>${s.title}</h3>
-    </div>
-  `).join("");
-
-  function renderDetail(i){
-    const s = SERVICES[i];
-    detailEl.innerHTML = `
-      <div class="service-detail-media"><img src="${s.img}" alt="${s.title}" loading="lazy"></div>
-      <p>${s.desc}</p>
-      <a href="work.html" class="btn btn-primary">${s.cta} →</a>
-    `;
-  }
-  renderDetail(0);
-
-  navEl.querySelectorAll(".service-row").forEach(row => {
-    row.addEventListener("mouseenter", () => {
-      navEl.querySelectorAll(".service-row").forEach(r => r.classList.remove("active"));
-      row.classList.add("active");
-      renderDetail(Number(row.dataset.i));
-    });
-    row.addEventListener("click", () => {
-      navEl.querySelectorAll(".service-row").forEach(r => r.classList.remove("active"));
-      row.classList.add("active");
-      renderDetail(Number(row.dataset.i));
-    });
-  });
-})();
-
-/* ---------- Feature grid (home page) ---------- */
-(function featureGrid(){
-  const gridEl = document.getElementById("featureGrid");
-  if (!gridEl || typeof FEATURES === "undefined") return;
-  gridEl.innerHTML = FEATURES.map((f,i) => `
-    <div class="feature-card v-${f.variant} reveal" style="--i:${i}">
-      ${f.icon}
-      <div><h4>${f.title}</h4><p>${f.desc}</p></div>
-    </div>
-  `).join("");
-})();
-
-/* ---------- Pricing grid (home page) ---------- */
-(function pricingGrid(){
-  const el = document.getElementById("pricingGrid");
-  if (!el || typeof PRICING === "undefined") return;
-  el.innerHTML = PRICING.map((p,i) => `
-    <div class="pricing-card${p.featured ? " is-featured" : ""} reveal" style="--i:${i}">
-      ${p.featured ? '<span class="pricing-badge">Most requested</span>' : ""}
-      <h3>${p.name}</h3>
-      <p class="pricing-price">${p.price}</p>
-      <ul>${p.items.map(i => `<li>${i}</li>`).join("")}</ul>
-      <a href="contact.html" class="btn ${p.featured ? "btn-primary" : "btn-ghost"}" style="width:100%; justify-content:center; margin-top:24px;">Start a project →</a>
-    </div>
-  `).join("");
-})();
-
-/* ---------- Comparison table (home page) ---------- */
-(function comparisonTable(){
-  const el = document.getElementById("comparisonTable");
-  if (!el || typeof COMPARISON === "undefined") return;
-  const header = `
-    <div class="comparison-row comparison-head">
-      <div></div>
-      ${COMPARISON.columns.map(c => `<div class="comparison-col-label${c.label === "Alinea" ? " is-alinea" : ""}">${c.label}</div>`).join("")}
-    </div>`;
-  const rows = COMPARISON.rows.map((rowLabel, i) => `
-    <div class="comparison-row">
-      <div class="comparison-row-label">${rowLabel}</div>
-      ${COMPARISON.columns.map(c => `<div class="comparison-cell${c.label === "Alinea" ? " is-alinea" : ""}">${c.values[i]}</div>`).join("")}
-    </div>
-  `).join("");
-  el.innerHTML = header + rows;
-})();
-
-/* ---------- Timeline (Gantt-style, studio page) ---------- */
-(function timelineChart(){
-  const el = document.getElementById("timelineChart");
-  if (!el || typeof TIMELINE === "undefined" || typeof TIMELINE_COLUMNS === "undefined") return;
-
-  const cols = TIMELINE_COLUMNS.length;
-  el.style.setProperty("--tl-cols", cols);
-
-  const head = `<div class="tl-head" style="text-align:left;">Phase</div>` +
-    TIMELINE_COLUMNS.map(c => `<div class="tl-head">${c}</div>`).join("");
-
-  const rows = TIMELINE.map(row => {
-    let cells = "";
-    for (let i = 1; i <= cols; i++){
-      const inSpan = i >= row.start && i < row.start + row.span;
-      cells += `<div class="tl-cell">${inSpan ? `<div class="tl-bar${row.optional ? " tl-optional" : ""}"></div>` : ""}</div>`;
-    }
-    return `<div class="tl-row-label">${row.label}</div>${cells}`;
-  }).join("");
-
-  el.innerHTML = head + rows;
-})();
-
-/* ---------- Positioning statement (home page) ---------- */
-(function positioningStatement(){
-  const el = document.getElementById("positioningStatement");
-  if (!el || typeof POSITIONING === "undefined") return;
-  const p = POSITIONING;
-  el.innerHTML = `
-    <blockquote>To <em>${p.audience}</em>, Alinea is the <em>${p.category}</em> that provides <em>${p.offer}</em> — because <span class="fill">${p.belief}</span></blockquote>
-  `;
-})();
-
-/* ---------- Onboarding steps (contact page) ---------- */
-(function onboardingSteps(){
-  const el = document.getElementById("onboardingTrack");
-  if (!el || typeof ONBOARDING === "undefined") return;
-  el.innerHTML = ONBOARDING.map((s,i) => `
-    <div class="onboarding-step reveal" style="--i:${i}"><h4>${s.title}</h4><p>${s.desc}</p></div>
-  `).join("");
-})();
-
-/* ---------- Scope by stage (studio page) ---------- */
-(function scopeStages(){
-  const el = document.getElementById("scopeGrid");
-  if (!el || typeof SCOPE_STAGES === "undefined") return;
-  el.innerHTML = SCOPE_STAGES.map(s => `
-    <div class="scope-item">
-      <div class="scope-required">${s.required ? "Required" : "As needed"}</div>
-      <h4>${s.name}</h4>
-      <ul>${s.items.map(i => `<li>${i}</li>`).join("")}</ul>
-    </div>
-  `).join("");
-})();
-
-/* ---------- Client / partner logo marquee ---------- */
-(function populateLogoMarquee(){
-  const track = document.getElementById("logoMarqueeTrack");
-  if (!track || typeof CLIENTS === "undefined") return;
-  const doubled = [...CLIENTS, ...CLIENTS];
-  track.innerHTML = doubled.map(c => `<span>${c}</span>`).join("");
-})();
-
-/* ---------- Reveal on scroll ---------- */
-(function reveal(){
-  const els = document.querySelectorAll(".reveal");
-  if (!els.length) return;
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting){ e.target.classList.add("is-visible"); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.12 });
-  els.forEach(el => io.observe(el));
-})();
-
-/* ---------- FAQ accordion (studio page) ---------- */
-(function faq(){
-  const list = document.getElementById("faqList");
-  if (!list || typeof FAQ === "undefined") return;
-  list.innerHTML = FAQ.map((item, i) => `
-    <div class="faq-item" data-i="${i}">
-      <button class="faq-q" type="button">
-        <span>${item.q}</span><span class="plus">+</span>
-      </button>
-      <div class="faq-a"><p>${item.a}</p></div>
-    </div>
-  `).join("");
-  list.querySelectorAll(".faq-item").forEach(item => {
-    item.querySelector(".faq-q").addEventListener("click", () => {
-      const wasOpen = item.classList.contains("open");
-      list.querySelectorAll(".faq-item").forEach(i => i.classList.remove("open"));
-      if (!wasOpen) item.classList.add("open");
-    });
-  });
-})();
-
-/* ---------- Project card template (shared by work grid + home preview) ---------- */
-function projectCardHTML(p){
-  return `
-    <a class="project-card" href="project.html?p=${p.slug}">
-      <div class="project-card-media"><img src="${p.hero}" alt="${p.name}" loading="lazy"></div>
-      <div class="project-card-body">
-        <div class="project-card-tags">${p.tags.slice(0,2).map(t => `<span class="project-tag">${t}</span>`).join("")}</div>
-        <h3>${p.name}</h3>
-        <p>${p.summary}</p>
-      </div>
-    </a>
-  `;
+'use strict';
+const $ = (s, root = document) => root.querySelector(s);
+const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const projectURL = p => `project.html?p=${encodeURIComponent(p.slug)}`;
+const imageURL = (path, base = '') => base + path.split('/').map(encodeURIComponent).join('/');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+let motionOff = reduced.matches;
+try { motionOff ||= localStorage.getItem('alinea-motion') === 'off'; } catch {}
+const cover = p => {
+  const ready = p.kind === 'portfolio' || p.galleryReady;
+  if (ready) return `<img src="${imageURL(p.hero,p.imageBase)}" alt="${escapeHTML(p.name)} — brand identity and packaging" loading="lazy">`;
+  return `<div class="concept-cover ${p.slug === 'costella' ? 'costella' : 'solferino'}"><span class="eyebrow">${escapeHTML(p.status)}</span><strong>${escapeHTML(p.name)}</strong><span>${p.slug === 'costella' ? 'Italian aperitivo, zero proof.' : 'One house. Many expressions.'}</span><span class="concept-foot">${p.kind === 'upcoming' ? 'A brand world in the making' : 'A self-initiated brand world'} </span><img class="pending-art" src="${imageURL(p.hero,p.imageBase)}" alt="${escapeHTML(p.name)} brand artwork" loading="lazy"></div>`;
+};
+function projectCard(p){
+ return `<a class="project-card reveal" href="${projectURL(p)}" style="--card-color:${p.color}"><div class="project-media">${cover(p)}<span class="project-open" aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></span></div><div class="project-info"><div><h3>${escapeHTML(p.name)}</h3><small>${escapeHTML(p.status)}</small></div><p>${escapeHTML(p.summary)}</p><div class="project-tags">${p.tags.map(escapeHTML).join(' / ')}</div></div></a>`;
+}
+let revealObserver;
+function observeReveals(){
+ if (motionOff) return;
+ if (!revealObserver) revealObserver = new IntersectionObserver(entries => entries.forEach(entry=>{
+  if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target);}
+ }), {threshold:.06});
+ $$('.reveal:not(.visible)').forEach(el=>revealObserver.observe(el));
+}
+if($('#homeProjects')) $('#homeProjects').innerHTML=PROJECTS.map(projectCard).join('');
+const featuredConcept=$('.concept-feature > a');
+if(featuredConcept){featuredConcept.className='featured-concept-link';featuredConcept.innerHTML=cover(PROJECTS.find(p=>p.slug==='costella'));}
+function renderCollection(kind='all'){
+ const list=kind==='all'?PROJECTS:PROJECTS.filter(p=>p.kind===kind);
+ $('#projectGrid').innerHTML=list.map(projectCard).join('');
+ $('#collectionCount').textContent=`${String(list.length).padStart(2,'0')} ${list.length===1?'project':'projects'}`;
+ observeReveals();
+}
+if($('#projectGrid')){
+ renderCollection();
+ $$('[data-filter]').forEach(btn=>btn.addEventListener('click',()=>{
+  $$('[data-filter]').forEach(el=>el.setAttribute('aria-pressed',String(el===btn)));
+  renderCollection(btn.dataset.filter);
+ }));
 }
 
-/* ---------- Home: featured project + preview grid ---------- */
-(function homePreview(){
-  const featuredEl = document.getElementById("featuredProject");
-  const previewEl = document.getElementById("workPreviewGrid");
-  if ((!featuredEl && !previewEl) || typeof PROJECTS === "undefined") return;
+/* Case studies remain data-driven as the collection grows. */
+let activeGallery=[];
+let activeProject=null;
+const root=$('#projectRoot');
+if(root){
+ const slug=new URLSearchParams(location.search).get('p');
+ const p=PROJECTS.find(item=>item.slug===slug);
+ if(!p){
+  document.title='Project not found — Alinea Brands';
+  root.innerHTML='<section class="error-page section"><p class="eyebrow">Project not found</p><h1>Off the shelf.<br><em>Back to the work?</em></h1><a class="pill" href="work.html">Explore the collection </a></section>';
+ }else{
+  activeProject=p;
+  document.title=`${p.name} — Alinea Brands`;
+  $('meta[name="description"]').content=p.summary;
+  const next=PROJECTS[(PROJECTS.indexOf(p)+1)%PROJECTS.length];
+  const sections=p.sections||[];
+  activeGallery=p.galleryReady?[p.hero,...p.gallery]:[];
+  root.innerHTML=`<section class="case-heading section"><a class="text-link" href="work.html"> All work</a><div class="case-title"><div><p class="eyebrow">${escapeHTML(p.sector)} / ${escapeHTML(p.status)}</p><h1>${escapeHTML(p.name)}</h1></div><p>${escapeHTML(p.summary)}</p></div><div class="case-cover" style="--card-color:${p.color}">${cover(p)}</div></section><section class="case-story section"><aside><p class="eyebrow">${p.kind==='upcoming'?'Project preview':'Inside the brand'}</p><dl><dt>Discipline</dt><dd>${p.tags.map(escapeHTML).join('<br>')}</dd><dt>Project</dt><dd>${escapeHTML(p.status)}</dd>${p.credit?`<dt>Credit &amp; scope</dt><dd>${escapeHTML(p.credit)}</dd>`:''}</dl>${p.kind==='portfolio'?'<a class="text-link" href="https://www.behance.net/alineabrands" target="_blank" rel="noopener">On Behance </a>':''}</aside><div class="story-copy"><p class="case-lead">${escapeHTML(p.intro)}</p>${sections.map((section,i)=>`<section class="story-section"><span class="eyebrow">${String(i+1).padStart(2,'0')}</span><div><h2>${escapeHTML(section.title)}</h2>${section.body?`<p>${escapeHTML(section.body)}</p>`:''}${section.items?`<ul>${section.items.map(item=>`<li>${escapeHTML(item)}</li>`).join('')}</ul>`:''}</div></section>`).join('')}</div></section>${p.galleryReady?`<section class="case-gallery section" aria-label="${escapeHTML(p.name)} project gallery">${p.gallery.map((src,i)=>`<button class="gallery-image" data-gallery-index="${i+1}" aria-label="Enlarge ${escapeHTML(p.name)} image ${i+1}"><img src="${imageURL(src,p.imageBase)}" alt="${escapeHTML(p.name)} — project detail ${i+1}" loading="lazy"><span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></span></button>`).join('')}</section>`:`<section class="imagery-note section"><p class="eyebrow">${p.kind==='upcoming'?'In development':'Project imagery coming soon'}</p><h2>${p.kind==='upcoming'?'The next expression.<br><em>On its way.</em>':'The world of Costella.<br><em>More to come.</em>'}</h2><p>${p.kind==='upcoming'?'Final artwork and the completed case study will follow.':'The concept is complete. The visual gallery will be added next.'}</p></section>`}<section class="next-study section"><p class="eyebrow">Next in the collection</p><a href="${projectURL(next)}">${escapeHTML(next.name)} <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></a></section>`;
+  $$('[data-gallery-index]').forEach(button=>button.addEventListener('click',()=>openGallery(Number(button.dataset.galleryIndex))));
+ }
+}
 
-  const featured = PROJECTS.find(p => p.slug === "biona-coffee") || PROJECTS[0];
-  if (featuredEl){
-    featuredEl.innerHTML = `
-      <a class="featured-card" href="project.html?p=${featured.slug}">
-        <img src="${featured.hero}" alt="${featured.name}">
-        <div class="featured-label"><b>${featured.name}</b>${featured.summary}</div>
-      </a>
-    `;
-  }
-  if (previewEl){
-    const preview = PROJECTS.filter(p => p.slug !== featured.slug).slice(0, 6);
-    previewEl.innerHTML = preview.map(projectCardHTML).join("");
-  }
-})();
+/* Full-resolution gallery with native dialog focus containment. */
+let galleryIndex=0, opener=null;
+let dialog;
+if(activeGallery.length){
+ dialog=document.createElement('dialog');
+ dialog.className='lightbox';
+ dialog.setAttribute('aria-label','Project image viewer');
+ dialog.innerHTML='<div class="lightbox-toolbar"><button data-prev aria-label="Previous image"><svg class="arrow-icon arrow-back" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></button><span class="lightbox-count" aria-live="polite"></span><button data-next aria-label="Next image"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></button><button data-close aria-label="Close image viewer">Close ×</button></div><div class="lightbox-scroll"><img alt=""></div>';
+ document.body.appendChild(dialog);
+ $('[data-close]',dialog).addEventListener('click',()=>dialog.close());
+ $('[data-prev]',dialog).addEventListener('click',()=>showGallery(galleryIndex-1));
+ $('[data-next]',dialog).addEventListener('click',()=>showGallery(galleryIndex+1));
+ dialog.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();showGallery(galleryIndex-1);}if(e.key==='ArrowRight'){e.preventDefault();showGallery(galleryIndex+1);}});
+ dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});
+ dialog.addEventListener('close',()=>{document.body.style.overflow='';opener?.focus();});
+}
+function showGallery(index){
+ galleryIndex=(index+activeGallery.length)%activeGallery.length;
+ const img=$('img',dialog);
+ img.src=imageURL(activeGallery[galleryIndex],activeProject.imageBase);
+ img.alt=`${activeProject.name} — image ${galleryIndex+1} of ${activeGallery.length}`;
+ $('.lightbox-count',dialog).textContent=`${galleryIndex+1} / ${activeGallery.length}`;
+ $('.lightbox-scroll',dialog).scrollTop=0;
+}
+function openGallery(index){if(!dialog)return;opener=document.activeElement;showGallery(index);dialog.showModal();document.body.style.overflow='hidden';}
 
-/* ---------- Work page: filterable grid ---------- */
-(function workGrid(){
-  const gridEl = document.getElementById("projectGrid");
-  const filtersEl = document.getElementById("filters");
-  if (!gridEl || typeof PROJECTS === "undefined") return;
+/* Progressive cover reveal; unuploaded artwork never appears as a broken image. */
+function loadedImage(img){if(img.classList.contains('pending-art'))img.parentElement.classList.add('art-ready');}
+function failedImage(img){
+ if(img.classList.contains('pending-art')){img.remove();return;}
+ if(img.closest('.lightbox'))return;
+ const note=document.createElement('div');note.className='image-fallback';note.textContent=img.alt||'Project image';img.replaceWith(note);
+}
+document.addEventListener('load',e=>{if(e.target instanceof HTMLImageElement)loadedImage(e.target);},true);
+document.addEventListener('error',e=>{if(e.target instanceof HTMLImageElement)failedImage(e.target);},true);
+$$('img').forEach(img=>{if(img.complete){if(img.naturalWidth)loadedImage(img);else failedImage(img);}});
 
-  function render(sector){
-    const items = sector === "All" ? PROJECTS : PROJECTS.filter(p => p.sector === sector);
-    gridEl.innerHTML = items.map(projectCardHTML).join("");
-  }
+/* Mobile navigation is a disclosure, leaving normal page navigation intact. */
+const menu=$('.menu-toggle'),nav=$('.nav');
+function closeMenu(){nav.classList.remove('menu-open');menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Open navigation');}
+menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';nav.classList.toggle('menu-open',open);menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close navigation':'Open navigation');});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('menu-open')){closeMenu();menu.focus();}});
+document.addEventListener('click',e=>{if(!nav.contains(e.target))closeMenu();});
+matchMedia('(min-width:601px)').addEventListener('change',e=>{if(e.matches)closeMenu();});
+$$('.nav nav a').forEach(a=>{if(a.dataset.page===document.body.dataset.page)a.setAttribute('aria-current','page');});
+$$('.js-year').forEach(el=>el.textContent=new Date().getFullYear());
 
-  if (filtersEl && typeof SECTORS !== "undefined"){
-    filtersEl.innerHTML = SECTORS.map((s,i) =>
-      `<button class="filter-chip${i===0 ? " active" : ""}" data-sector="${s}" type="button">${s}</button>`
-    ).join("");
-    filtersEl.querySelectorAll(".filter-chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        filtersEl.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
-        render(chip.dataset.sector);
-      });
-    });
-  }
+/* A completed brief opens locally; nothing is submitted in the background. */
+const form=$('#contactForm');
+function brief(){
+ const data=new FormData(form);
+ const guide=SCOPE_GUIDES.find(item=>item.id===data.get('scope'));
+ return `Starting scope: ${guide?guide.name:'Let’s figure it out together'}\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nBrand: ${data.get('company')||'Not specified'}\nServices: ${data.getAll('services').join(', ')||'Let’s discuss'}\nTiming: ${data.get('timeline')||'Flexible'}\n\n${data.get('message')}`;
+}
+if(form){
+ form.addEventListener('submit',e=>{
+  e.preventDefault();if(!form.reportValidity())return;
+  const data=new FormData(form);
+  location.href=`mailto:${STUDIO.email}?subject=${encodeURIComponent('Brand project inquiry — '+data.get('name'))}&body=${encodeURIComponent(brief())}`;
+  $('#formStatus').textContent='Your email draft is ready to open. If no email app opens, copy the brief and email it to '+STUDIO.email+'.';
+ });
+ $('#copyBrief').addEventListener('click',async()=>{
+  if(!form.reportValidity())return;
+  try{await navigator.clipboard.writeText(brief());$('#formStatus').textContent='Brief copied. Paste it into an email to '+STUDIO.email+'.';}
+  catch{const fallback=$('#briefFallback');fallback.hidden=false;fallback.value=brief();fallback.focus();fallback.select();$('#formStatus').textContent='Select and copy the brief below, then paste it into your email.';}
+ });
+}
 
-  render("All");
-})();
+/* Motion follows user preferences and runs only during input. */
+const motionButton=document.createElement('button');motionButton.className='motion-toggle';motionButton.type='button';$('.footer-bottom').appendChild(motionButton);
+function applyMotion(){document.documentElement.classList.toggle('motion',!motionOff);document.documentElement.dataset.motion=motionOff?'off':'on';motionButton.textContent=motionOff?'Motion off':'Motion on';motionButton.setAttribute('aria-pressed',String(!motionOff));if(motionOff){document.getAnimations().forEach(a=>a.cancel());}else observeReveals();}
+motionButton.addEventListener('click',()=>{motionOff=!motionOff;applyMotion();try{localStorage.setItem('alinea-motion',motionOff?'off':'on');}catch{}});
+reduced.addEventListener('change',()=>{motionOff=reduced.matches;applyMotion();});
+applyMotion();
+const shelf=$('.hero-shelf');
+if(shelf){
+ shelf.addEventListener('pointermove',e=>{if(motionOff||!finePointer.matches)return;const r=shelf.getBoundingClientRect();shelf.style.setProperty('--rx',`${(e.clientY-r.top-r.height/2)*-.012}deg`);shelf.style.setProperty('--ry',`${(e.clientX-r.left-r.width/2)*.006}deg`);});
+ shelf.addEventListener('pointerleave',()=>{shelf.style.setProperty('--rx','0deg');shelf.style.setProperty('--ry','0deg');});
+ if(!motionOff){$$('.hero-type h1,.hero-aside,.hero-shelf').forEach((el,i)=>el.animate([{opacity:0,transform:'translateY(25px)'},{opacity:1,transform:'translateY(0)'}],{duration:950,delay:i*130,easing:'cubic-bezier(.16,1,.3,1)',fill:'backwards'}));}
+}
+let ticking=false;
+function updateProgress(){const max=document.documentElement.scrollHeight-innerHeight;document.documentElement.style.setProperty('--progress',max>0?scrollY/max:0);ticking=false;}
+addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(updateProgress);}},{passive:true});
+addEventListener('resize',updateProgress);updateProgress();
 
-/* ---------- Project detail page ---------- */
-(function projectDetail(){
-  const root = document.getElementById("projectRoot");
-  if (!root || typeof PROJECTS === "undefined") return;
+/* Scope guide: illustrative ranges and examples, carried into the contact brief. */
+const scopeRoot=$('#scopeDetails');
+function renderScope(id, announce=true){
+ const guide=SCOPE_GUIDES.find(item=>item.id===id)||SCOPE_GUIDES[1];
+ $$('[data-scope]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scope===guide.id)));
+ if(announce)$('#scopeAnnouncement').textContent=`${guide.name}. Indicative planning range: ${guide.range}.`;
+ const proof=PROJECTS.find(p=>p.slug===guide.proof);
+ scopeRoot.innerHTML=`<div class="scope-overview"><div><p class="eyebrow">Your starting point</p><h3>${escapeHTML(guide.name)}</h3><p>${escapeHTML(guide.fit)}</p><p class="scope-result">${escapeHTML(guide.result)}</p></div><div class="scope-range"><span>Indicative duration</span><strong>${escapeHTML(guide.range)}</strong><p>Planning guidance, not a fixed deadline. We confirm your scope and schedule after the brief.</p></div></div><div class="scope-inclusions"><div><h4>What we would scope</h4><ul>${guide.includes.map(item=>`<li>${escapeHTML(item)}</li>`).join('')}</ul></div><div><h4>What you bring</h4><p>${escapeHTML(guide.input)}</p><h4>Define separately</h4><p>${escapeHTML(guide.boundary)}</p></div></div><div class="timeline-head"><h4>A possible rhythm</h4><p>A ${guide.sampleWeeks}-week example within the range above. Each stage builds on the previous approval.</p></div><div class="timeline-scroll" tabindex="0" role="region" aria-label="Example project timeline, scroll horizontally on smaller screens"><table class="scope-timeline"><caption class="sr-only">${escapeHTML(guide.name)}: illustrative ${guide.sampleWeeks}-week schedule</caption><thead><tr><th scope="col">Stage</th>${Array.from({length:guide.sampleWeeks},(_,i)=>`<th scope="col">W${i+1}</th>`).join('')}</tr></thead><tbody>${guide.stages.map(stage=>{const before=stage.start-1,after=guide.sampleWeeks-before-stage.span;return `<tr><th scope="row">${escapeHTML(stage.name)}</th>${before?`<td colspan="${before}"></td>`:''}<td colspan="${stage.span}"><span class="timeline-bar ${stage.buffer?'is-buffer':''}"><span class="sr-only">Weeks ${stage.start} to ${stage.start+stage.span-1}</span></span></td>${after?`<td colspan="${after}"></td>`:''}</tr>`;}).join('')}</tbody></table></div><p class="timeline-key"><span></span>Creative work <span class="buffer-key"></span>Review allowance</p><div class="stage-details">${guide.stages.map((stage,i)=>`<details ${i===0?'open':''}><summary><span>${String(i+1).padStart(2,'0')}</span><strong>${escapeHTML(stage.name)}</strong><small>${escapeHTML(stage.duration)}</small><b>+</b></summary><div><p><span>You receive</span>${escapeHTML(stage.output)}</p><p><span>The decision together</span>${escapeHTML(stage.decision)}</p></div></details>`).join('')}</div><div class="scope-proof"><div><p class="eyebrow">See the thinking in practice</p><a class="text-link" href="${projectURL(proof)}">${escapeHTML(guide.proofLabel)}</a>${guide.proof==='costella'?'<p>Costella is a three-day solo concept sprint. It illustrates the breadth of a brand system, not a promised client turnaround.</p>':''}</div><a class="pill" href="contact.html?scope=${guide.id}">Discuss this scope</a></div>`;
+}
+if(scopeRoot){
+ const chosen=new URLSearchParams(location.search).get('scope');
+ renderScope(chosen,false);
+ $$('[data-scope]').forEach(button=>button.addEventListener('click',()=>renderScope(button.dataset.scope)));
+}
+if(form){
+ const scopeSelect=$('select[name="scope"]',form);
+ const requested=new URLSearchParams(location.search).get('scope');
+ if(SCOPE_GUIDES.some(item=>item.id===requested))scopeSelect.value=requested;
+ const showChoice=()=>{
+  const guide=SCOPE_GUIDES.find(item=>item.id===scopeSelect.value);
+  const info=$('#selectedScope');info.hidden=!guide;
+  if(guide)info.innerHTML=`<p class="eyebrow">A starting point, not a commitment</p><h3>${escapeHTML(guide.name)}</h3><p>${escapeHTML(guide.range)} as a planning guide. We’ll shape the scope and quote around your actual needs.</p><a href="studio.html?scope=${guide.id}#scope">Review the scope guide</a>`;
+ };
+ scopeSelect.addEventListener('change',showChoice);showChoice();
+}
 
-  const slug = new URLSearchParams(window.location.search).get("p");
-  const p = PROJECTS.find(x => x.slug === slug);
-
-  if (!p){
-    root.innerHTML = `
-      <div class="wrap" style="padding:120px 0; text-align:center;">
-        <p class="badge-eyebrow">.not found</p>
-        <h1 style="font-size:32px;">We couldn't find that project.</h1>
-        <p style="margin-top:16px;"><a class="btn btn-ghost" href="work.html">← Back to all work</a></p>
-      </div>
-    `;
-    document.title = "Project not found — Alinea";
-    return;
-  }
-
-  document.title = `${p.name} — Alinea`;
-
-  const idx = PROJECTS.indexOf(p);
-  const next = PROJECTS[(idx + 1) % PROJECTS.length];
-
-  root.innerHTML = `
-    <section class="project-hero">
-      <div class="wrap">
-        <a class="project-back" href="work.html">← Back to all work</a>
-        <div class="project-title">
-          <p class="badge-eyebrow">${p.sector}</p>
-          <h1>${p.name}</h1>
-        </div>
-        <div class="project-hero-media"><img src="${p.hero}" alt="${p.name}"></div>
-        ${p.gallery && p.gallery.length ? `
-        <div class="project-gallery">
-          ${p.gallery.map(src => `<img src="${src}" alt="${p.name} — detail" loading="lazy">`).join("")}
-        </div>` : ""}
-
-        <div class="project-meta-row">
-          <div><span>Sector</span><b>${p.sector}</b></div>
-          <div><span>Year</span><b>${p.year}</b></div>
-          <div><span>Services</span><b>${p.tags.join(", ")}</b></div>
-          <div><span>Studio</span><b>Alinea</b></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="wrap">
-      <div class="project-body">
-        <div class="project-side">Case study</div>
-        <div>
-          <div class="project-section">
-            <h2>The brief</h2>
-            <p>${p.intro}</p>
-          </div>
-          <div class="project-section">
-            <h2>Approach</h2>
-            <ul>${p.approach.map(a => `<li>${a}</li>`).join("")}</ul>
-          </div>
-          <div class="project-section">
-            <h2>What we delivered</h2>
-            <ul>${p.deliverables.map(d => `<li>${d}</li>`).join("")}</ul>
-          </div>
-          ${p.metrics ? `
-          <div class="project-section">
-            <h2>At a glance</h2>
-            <div style="display:flex; gap:36px; flex-wrap:wrap;">
-              ${p.metrics.map(m => `
-                <div><span style="display:block; font-family:var(--font-display); font-size:28px;">${m.v}</span>
-                <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--ink-dim);">${m.l}</span></div>
-              `).join("")}
-            </div>
-          </div>` : ""}
-          <div class="project-section">
-            <h2>Outcome</h2>
-            <p>${p.outcome}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="wrap">
-      <div class="next-project">
-        <span class="badge-eyebrow" style="margin:0;">Next project</span>
-        <a href="project.html?p=${next.slug}">${next.name} →</a>
-      </div>
-    </section>
-  `;
-})();
-
-/* ---------- Contact form (contact.html) ----------
-   No backend on a static site, so "submitting" opens the visitor's
-   email client with the form fields pre-filled — genuinely
-   functional without needing a server. Native HTML5 validation
-   (required / type=email) runs first via the browser. */
-(function contactForm(){
-  const form = document.getElementById("contactForm");
-  if (!form) return;
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (!form.checkValidity()){ form.reportValidity(); return; }
-
-    const data = new FormData(form);
-    const first = data.get("firstName") || "";
-    const last = data.get("lastName") || "";
-    const email = data.get("email") || "";
-    const phone = data.get("phone") || "";
-    const company = data.get("company") || "";
-    const companyUrl = data.get("companyUrl") || "";
-    const budget = data.get("budget") || "Not specified";
-    const preferredContact = data.get("preferredContact") || "Email";
-    const services = data.getAll("services").join(", ") || "Not specified";
-    const message = data.get("message") || "";
-
-    const subject = encodeURIComponent(`New project inquiry — ${first} ${last}`.trim());
-    const body = encodeURIComponent(
-      `Name: ${first} ${last}\n` +
-      `Email: ${email}\n` +
-      `Phone: ${phone}\n` +
-      `Company: ${company}\n` +
-      `Link: ${companyUrl}\n` +
-      `Budget: ${budget}\n` +
-      `Requested services: ${services}\n` +
-      `Preferred contact: ${preferredContact}\n\n` +
-      `About the brand:\n${message}`
-    );
-    window.location.href = `mailto:hello@alineabrands.com?subject=${subject}&body=${body}`;
-  });
-})();
+/* Slow, autonomous color drift. Random paths are chosen once per page load. */
+$$('.ambient-wash i,.footer-wash i').forEach((layer,index)=>{
+ const random=(a,b)=>a+Math.random()*(b-a);
+ layer.style.setProperty('--start-x',`${random(-22,12).toFixed(1)}%`);
+ layer.style.setProperty('--start-y',`${random(-20,10).toFixed(1)}%`);
+ layer.style.setProperty('--end-x',`${random(12,36).toFixed(1)}%`);
+ layer.style.setProperty('--end-y',`${random(15,38).toFixed(1)}%`);
+ layer.style.setProperty('--drift-time',`${random(55,95).toFixed(1)}s`);
+ layer.style.setProperty('--drift-delay',`${-random(0,70).toFixed(1)}s`);
+});
+document.addEventListener('visibilitychange',()=>document.documentElement.toggleAttribute('data-paused',document.hidden));
