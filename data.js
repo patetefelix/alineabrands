@@ -58,77 +58,108 @@ const PROJECTS = [
       }
     ]
   },
-  {
-    "slug": "costella",
-    "name": "Costella",
-    "year": "2026",
-    "sector": "Food & Drink",
-    "kind": "concept",
-    "status": "Self-initiated concept",
-    "color": "#edc5a3",
-    "imageBase": "https://patetefelix.github.io/alineabrands/",
-    "hero": "images/costella-cover.jpg",
-    "galleryReady": false,
-    "gallery": [
-      "images/costella-01.jpg",
-      "images/costella-02.jpg",
-      "images/costella-03.jpg",
-      "images/costella-04.jpg",
-      "images/costella-05.jpg",
-      "images/costella-06.jpg",
-      "images/costella-07.jpg",
-      "images/costella-08.jpg",
-      "images/costella-09.jpg"
-    ],
-    "summary": "Italian aperitivo, zero proof. Nine flavors. Three lines. One complete brand world.",
-    "tags": [
-      "Brand identity",
-      "Packaging",
-      "Illustration"
-    ],
-    "intro": "A complete brand system for a fictional 0.0% ABV aperitivo — logo, packaging, illustration system, and a landing page design — built solo, self-initiated, in three days.",
-    "credit": "Designed solo by Félix Patete. Self-initiated, not client work.",
-    "sections": [
-      {
-        "title": "The brief",
-        "body": "Set for myself, not a client: could I build a beverage brand with the depth of a real engagement — not just a can, but nine full flavor identities, a working ingredient and icon system, and a homepage design — inside a self-imposed three-day window?"
-      },
-      {
-        "title": "The concept",
-        "body": "Costella is Italian soul and Latin spirit, poured without compromise. The idea: pleasure never needed the alcohol to be the point. Nine flavors across three lines — Classic Zero, a CBD-infused line, and a Premium Reserve tier in amber glass — each one an aperitivo built to the same bitter-bright-complex curve as its alcoholic ancestor, just with the alcohol stripped out and nothing else softened."
-      },
-      {
-        "title": "The illustration system",
-        "body": "Every flavor’s packaging centers on a hand-painted illustration of the real coastline that inspired it. The style is drawn directly from vintage European travel postcards and hotel luggage stamps — the small, saturated destination labels that once marked a well-traveled suitcase — reimagined as a “window” sitting quietly behind each can’s typography rather than competing with it.",
-        "items": [
-          "Amalfi Spritz — Amalfi Coast, Italy",
-          "Moscow Mule Zero — French Riviera",
-          "Passionfruit Mojito — Rio de Janeiro, Brazil",
-          "Fresa Basil Smash — Algarve, Portugal",
-          "Bergamotto & Sage — Calabria, Italy",
-          "Negroni Bloom — Venetian/Tuscan coast",
-          "Chinotto Nero — Ligurian coast, Italy",
-          "Peach Rosemary — Greek islands",
-          "Grapefruit & Lavender — Provence, France"
-        ]
-      },
-      {
-        "title": "The system",
-        "items": [
-          "Logo and wordmark, with icon lockup options",
-          "Nine flavor identities across three product lines",
-          "Full label system: front panel, tasting notes, real ingredient lists, nutrition facts, allergen disclosures, barcode",
-          "A hand-drawn ingredient and wellness icon set",
-          "Campaign photography direction, studio and lifestyle, each shot grounded in its flavor’s coastline",
-          "A homepage design mockup — a full visual design pass for how the brand would live online, not a deployed or functioning site"
-        ]
-      },
-      {
-        "title": "Scope note",
-        "body": "Costella is a self-initiated concept project, not client work — no real production, distribution, or sales are attached to it. Built as a personal exercise in taking a brand idea the full distance: from a name and a color story to a system complete enough to imagine on an actual shelf."
-      }
-    ]
-  },
+{
+  "slug": "costella",
+  "name": "Costella",
+  "year": "2026",
+  "sector": "Food & Drink",
+  "kind": "concept",
+  "status": "Self-initiated concept",
+  "color": "#edc5a3",
+  "imageBase": "",
+  "hero": "images/costella-cover.jpg",
+  "galleryReady": true,
+  "gallery": [
+    "images/costella-01-logo.jpg",
+    "images/costella-02-flavor-lineup.jpg",
+    "images/costella-03-type-color-icons.jpg",
+    "images/costella-04-brand-touchpoints.jpg",
+    "images/costella-05-packaging-trio.jpg",
+    "images/costella-06-coastal-toast.jpg",
+    "images/costella-07-aperitivo-cart.jpg",
+    "images/costella-08-cocktail-postcards.jpg",
+    "images/costella-09-green-flavors.jpg",
+    "images/costella-10-campaign-strip.jpg",
+    "images/costella-11-desktop-experience.jpg",
+    "images/costella-12-homepage.jpg",
+    "images/costella-13-website-pages.jpg",
+    "images/costella-14-studio-pair.jpg",
+    "images/costella-15-evening-aperitivo.jpg",
+    "images/costella-16-flavor-worlds.jpg",
+    "images/costella-17-brand-world-collage.jpg",
+    "images/costella-18-summer-table.jpg"
+  ],
+  "summary": "Italian aperitivo, zero proof. Nine flavors. Three lines. One complete brand world.",
+  "tags": [
+    "Brand identity",
+    "Packaging",
+    "Illustration"
+  ],
+  "intro": "Born between two seas. Costella brings Italian aperitivo culture and Latin spirit into a fictional zero-proof brand, expressed through nine flavor identities, coastal illustration, packaging and a complete digital world.",
+  "credit": "Designed solo by Félix Patete. Self-initiated, not client work.",
+  "sections": [
+    {
+      "title": "The idea",
+      "body": "Pleasure never needed alcohol to be the point. Costella explores how a zero-proof aperitivo can feel generous, expressive and rooted in place. This self-initiated brand study connects the identity on the can with the world around it."
+    },
+    {
+      "title": "One identity. Many destinations.",
+      "body": "A bold wordmark, a shared label structure and a distinctive color for each flavor keep the range connected. Coastal illustrations draw on vintage European travel postcards and hotel luggage stamps, giving each expression its own destination."
+    },
+    {
+      "title": "Scope note",
+      "body": "Costella is a fictional, self-initiated concept by Félix Patete, not client work. Packaging, product claims, campaign scenes and shopping interfaces belong to the concept presentation; no real production, distribution or sales are attached to it."
+    }
+  ],
+  "behanceUrl": "https://www.behance.net/gallery/255888929/COSTELLA-Zero-Proof-Aperitivo-Brand-Packaging",
+  "liveUrl": "https://patetefelix.github.io/costella/",
+  "galleryAlts": [
+    "Costella blue wordmark and starburst on cream",
+    "Nine Costella flavor identities in a coastal setting",
+    "Costella typography, color palette and flavor icons",
+    "Costella tote bags, coasters, notebook and can",
+    "Amalfi Spritz, Peach Rosemary and Negroni Bloom packaging",
+    "Two hands raise Amalfi Spritz and Peach Rosemary cans above the sea",
+    "Costella branded aperitivo cart in a coastal garden",
+    "Five illustrated cocktail postcards in the Costella brand world",
+    "Green Costella cans on a sunlit coastal terrace",
+    "Four Costella campaign scenes in warm coastal light",
+    "Costella website displayed on two desktop monitors",
+    "Full Costella website homepage design",
+    "Costella website pages shown side by side",
+    "Negroni Bloom and Peach Rosemary in contrasting studio scenes",
+    "Chinotto Nero and Negroni Bloom on an evening waterfront table",
+    "Four distinct Costella flavor campaign worlds",
+    "Costella website, lifestyle photography and Amalfi campaign graphic",
+    "Fresa Basil Smash and Peach Rosemary on a sunny coastal table"
+  ],
+  "showcase": [
+    {
+      "title": "A recognizable world",
+      "body": "The wordmark, palette and flavor icons establish a shared visual language, from the full range to the smallest branded touchpoint.",
+      "start": 0,
+      "end": 4
+    },
+    {
+      "title": "From the can to the coast",
+      "body": "A consistent packaging structure makes room for individual flavor personalities. Campaign compositions extend those colors and destinations into an aperitivo ritual.",
+      "start": 4,
+      "end": 10
+    },
+    {
+      "title": "The brand, beyond the shelf",
+      "body": "The digital experience carries the same illustration, product hierarchy and coastal atmosphere into an explorable website.",
+      "start": 10,
+      "end": 13
+    },
+    {
+      "title": "Different flavors. One Costella.",
+      "body": "Studio still lifes, evening scenes and sunlit tables demonstrate how the brand can change mood while remaining recognizable.",
+      "start": 13,
+      "end": 18
+    }
+  ]
+},
   {
     "slug": "massalino-bakery",
     "name": "Massalino Trattoria",

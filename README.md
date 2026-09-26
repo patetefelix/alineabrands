@@ -28,14 +28,7 @@ Costella is explicitly described as fictional, self-initiated work by Félix. So
 
 ## Upload Costella artwork
 
-The filenames reserved in `data.js` are:
-
-- `images/costella-cover.jpg`
-- `images/costella-01.jpg` through `images/costella-09.jpg`
-
-Once all gallery images are uploaded, change Costella's `galleryReady` from `false` to `true`. The cover loads automatically once available, even before the gallery is enabled. While it is unavailable, visitors see a typographic project preview.
-
-These are proposed filenames, not a claim that those files already exist. If your filenames, extensions, or number of images differ, edit `hero` and `gallery` to match them exactly. Case matters on GitHub Pages.
+Costella’s completed editorial gallery is enabled. Follow [COSTELLA-IMAGE-GUIDE.md](COSTELLA-IMAGE-GUIDE.md) for the 19 exact filenames and export descriptions. Upload originals to this site’s `images/` folder. No gallery flag needs changing.
 
 ## Finish Solferino
 
