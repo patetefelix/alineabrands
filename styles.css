@@ -20,3 +20,13 @@ html[data-paused] .turning-mark{animation-play-state:paused}
 
 /* Completed Costella editorial showcase: original plates retain their proportions. */
 .showcase-chapter{padding-top:35px}.showcase-chapter header{display:grid;grid-template-columns:1fr 2fr;gap:24px 6vw;padding:35px 0 45px;border-top:1px solid var(--line)}.showcase-chapter header .eyebrow{grid-row:span 2}.showcase-chapter h2,.showcase-end h2{font-size:clamp(34px,5vw,72px);line-height:1.06;letter-spacing:-.035em}.showcase-chapter header>p:last-child{max-width:620px;font-size:15px;line-height:1.7}.showcase-plates{display:grid;gap:36px}.showcase-plates figure{margin:0;min-width:0}.showcase-plates .gallery-image{display:block;width:100%;padding:0;border:0;background:transparent}.showcase-plates img{display:block;width:100%;height:auto;object-fit:contain}.showcase-plates figcaption{padding-top:12px;font-size:11px;color:var(--muted)}.showcase-end{background:var(--green);color:var(--cream)}.showcase-end h2{margin:25px 0}.showcase-end>div{display:flex;flex-wrap:wrap;gap:12px}.showcase-end .pill{background:var(--cream);color:var(--green)}.showcase-end>p:last-child{font-size:12px;margin-top:25px;max-width:560px}@media(max-width:600px){.showcase-chapter header{display:block}.showcase-chapter h2{margin:20px 0}.showcase-plates{gap:25px}}
+
+/* Individually exported campaign images, grouped in their showcase order. */
+.showcase-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+.showcase-grid--4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.showcase-grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.showcase-grid--4 .gallery-image,.showcase-grid--2 .gallery-image{aspect-ratio:2/3;background:#eee8d8}
+.showcase-grid--4 img,.showcase-grid--2 img{width:100%;height:100%;object-fit:contain}
+.showcase-grid--4 .image-fallback,.showcase-grid--2 .image-fallback{height:100%;min-height:0;aspect-ratio:auto;font-size:18px}
+@media(max-width:700px){.showcase-grid--4{grid-template-columns:repeat(2,minmax(0,1fr))}.showcase-grid{gap:12px}}
+@media(max-width:380px){.showcase-grid--2,.showcase-grid--4{grid-template-columns:minmax(0,1fr)}}

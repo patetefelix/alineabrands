@@ -67,27 +67,34 @@ const PROJECTS = [
   "status": "Self-initiated concept",
   "color": "#edc5a3",
   "imageBase": "",
-  "hero": "images/costella-cover.jpg",
+  "hero": "images/costella-cover.png",
   "galleryReady": true,
   "gallery": [
-    "images/costella-01-logo.jpg",
-    "images/costella-02-flavor-lineup.jpg",
-    "images/costella-03-type-color-icons.jpg",
-    "images/costella-04-brand-touchpoints.jpg",
-    "images/costella-05-packaging-trio.jpg",
+    "images/costella-01-logo.png",
+    "images/costella-02-flavor-lineup.png",
+    "images/costella-03-type-color-icons.png",
+    "images/costella-04-brand-touchpoints.png",
+    "images/costella-05-packaging-trio.png",
     "images/costella-06-coastal-toast.jpg",
-    "images/costella-07-aperitivo-cart.jpg",
-    "images/costella-08-cocktail-postcards.jpg",
-    "images/costella-09-green-flavors.jpg",
-    "images/costella-10-campaign-strip.jpg",
+    "images/costella-07-aperitivo-cart.png",
+    "images/costella-08-cocktail-postcards.png",
+    "images/costella-09-green-flavors.png",
+    "images/costella-10-campaign-strip01.png",
+    "images/costella-10-campaign-strip02.png",
+    "images/costella-10-campaign-strip03.png",
+    "images/costella-10-campaign-strip04.png",
     "images/costella-11-desktop-experience.jpg",
-    "images/costella-12-homepage.jpg",
-    "images/costella-13-website-pages.jpg",
-    "images/costella-14-studio-pair.jpg",
-    "images/costella-15-evening-aperitivo.jpg",
-    "images/costella-16-flavor-worlds.jpg",
-    "images/costella-17-brand-world-collage.jpg",
-    "images/costella-18-summer-table.jpg"
+    "images/costella-12-homepage.png",
+    "images/costella-13-website-pages.png",
+    "images/costella-14-studio-pair01.png",
+    "images/costella-14-studio-pair02.png",
+    "images/costella-15-evening-aperitivo.png",
+    "images/costella-16-flavor-worlds01.png",
+    "images/costella-16-flavor-worlds02.png",
+    "images/costella-16-flavor-worlds03.png",
+    "images/costella-16-flavor-worlds04.png",
+    "images/costella-17-brand-world-collage.png",
+    "images/costella-18-summer-table.png"
   ],
   "summary": "Italian aperitivo, zero proof. Nine flavors. Three lines. One complete brand world.",
   "tags": [
@@ -123,13 +130,20 @@ const PROJECTS = [
     "Costella branded aperitivo cart in a coastal garden",
     "Five illustrated cocktail postcards in the Costella brand world",
     "Green Costella cans on a sunlit coastal terrace",
-    "Four Costella campaign scenes in warm coastal light",
+    "Amalfi Spritz with orange cocktails",
+    "Coastal aperitivo lifestyle scene",
+    "Negroni Bloom with a red cocktail",
+    "Chinotto Nero in a dark studio scene",
     "Costella website displayed on two desktop monitors",
     "Full Costella website homepage design",
     "Costella website pages shown side by side",
-    "Negroni Bloom and Peach Rosemary in contrasting studio scenes",
+    "Negroni Bloom studio still life",
+    "Peach Rosemary studio still life",
     "Chinotto Nero and Negroni Bloom on an evening waterfront table",
-    "Four distinct Costella flavor campaign worlds",
+    "Fresa Basil Smash campaign scene",
+    "Grapefruit and Lavender campaign scene",
+    "Moscow Mule Zero with coastal cocktails",
+    "Passionfruit Mojito tropical campaign scene",
     "Costella website, lifestyle photography and Amalfi campaign graphic",
     "Fresa Basil Smash and Peach Rosemary on a sunny coastal table"
   ],
@@ -138,25 +152,168 @@ const PROJECTS = [
       "title": "A recognizable world",
       "body": "The wordmark, palette and flavor icons establish a shared visual language, from the full range to the smallest branded touchpoint.",
       "start": 0,
-      "end": 4
+      "end": 4,
+      "groups": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "title": "From the can to the coast",
       "body": "A consistent packaging structure makes room for individual flavor personalities. Campaign compositions extend those colors and destinations into an aperitivo ritual.",
       "start": 4,
-      "end": 10
+      "end": 13,
+      "groups": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
     },
     {
       "title": "The brand, beyond the shelf",
       "body": "The digital experience carries the same illustration, product hierarchy and coastal atmosphere into an explorable website.",
-      "start": 10,
-      "end": 13
+      "start": 13,
+      "end": 16,
+      "groups": [
+        10,
+        11,
+        12
+      ]
     },
     {
       "title": "Different flavors. One Costella.",
       "body": "Studio still lifes, evening scenes and sunlit tables demonstrate how the brand can change mood while remaining recognizable.",
-      "start": 13,
-      "end": 18
+      "start": 16,
+      "end": 25,
+      "groups": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ]
+    }
+  ],
+  "galleryGroups": [
+    {
+      "indices": [
+        0
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        1
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        2
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        3
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        4
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        5
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        6
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        7
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        8
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "columns": 4
+    },
+    {
+      "indices": [
+        13
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        14
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        15
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        16,
+        17
+      ],
+      "columns": 2
+    },
+    {
+      "indices": [
+        18
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        19,
+        20,
+        21,
+        22
+      ],
+      "columns": 4
+    },
+    {
+      "indices": [
+        23
+      ],
+      "columns": 1
+    },
+    {
+      "indices": [
+        24
+      ],
+      "columns": 1
     }
   ]
 },
