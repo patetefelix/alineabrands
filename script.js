@@ -225,15 +225,3 @@ if('IntersectionObserver' in window){
  });
 }
 
-/* A small, bounded shift in the featured image; no wheel or touch interception. */
-const featuredArt=document.querySelector('.featured-art');
-if(featuredArt){
- let frame=0;
- const paint=()=>{frame=0;const r=featuredArt.getBoundingClientRect();
-  const shift=motionOff||innerWidth<700?0:Math.max(-12,Math.min(12,(innerHeight/2-r.top-r.height/2)*0.025));
-  featuredArt.style.setProperty('--art-shift',`${shift.toFixed(2)}px`);
- };
- const schedule=()=>{if(!frame)frame=requestAnimationFrame(paint);};
- addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule);
- motionButton.addEventListener('click',schedule);reduced.addEventListener('change',schedule);paint();
-}
