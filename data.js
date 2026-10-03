@@ -15,41 +15,48 @@ const PROJECTS = [
   "status": "Brand project",
   "color": "#d8ded0",
   "imageBase": "",
-  "hero": "",
-  "galleryReady": false,
-  "gallery": [],
+  "hero": "images/lies-for-sale-logo-poster.jpg",
+  "galleryReady": true,
+  "gallery": [
+    "images/lies-for-sale-01-hoodie-front.jpeg",
+    "images/lies-for-sale-02-hoodie-back.jpeg",
+    "images/lies-for-sale-03-chaos-tee.jpeg",
+    "images/lies-for-sale-04-tank-front.jpeg",
+    "images/lies-for-sale-05-tank-back.jpeg",
+    "images/lies-for-sale-06-logo-in-context.jpeg",
+    "images/lies-for-sale-07-collection-in-context.jpeg",
+    "images/lies-for-sale-08-environment.jpeg"
+  ],
   "summary": "Brand identity and collection design for Lies for Sale.",
   "tags": [
     "Branding",
     "Logo design",
     "Collection design"
   ],
-  "intro": "The project brings together the brand identity, logo and collection design. The full visual study will follow, showing how the identity translates into the collection.",
+  "intro": "An identity and collection designed by Félix Patete. The embroidered logo, expressive lettering and monochrome garment graphics carry a shared visual attitude from the brand mark to the clothing.",
   "websiteUrl": "https://www.liesforsale.com/password",
   "sections": [
     {
-      "title": "Project scope",
-      "items": [
-        "Branding",
-        "Logo design",
-        "Collection design"
-      ]
+      "title": "From mark to garment",
+      "body": "The identity moves from the embroidered logo to hoodie, T-shirt and tank graphics. Front and back views show how scale, placement and lettering work across the collection."
     },
     {
-      "title": "The visual story",
-      "body": "A dedicated showcase of the project artwork is being prepared. In the meantime, explore the brand’s website below."
+      "title": "In context",
+      "body": "The final images place the identity and garments in their wider visual setting."
     }
-  ]
+  ],
+  "heroVideo": "images/lies-for-sale-logo-motion.mp4",
+  "credit": "Branding, logo and collection designs by Félix Patete."
 },
 {
   "slug": "prisma",
-  "name": "Prisma",
+  "name": "Prisma Property Care",
   "sector": "Property care",
   "kind": "portfolio",
-  "status": "Brand project",
+  "status": "Case study coming soon",
   "color": "#d8ded0",
   "imageBase": "",
-  "hero": "",
+  "hero": "images/prisma-cover.png",
   "galleryReady": false,
   "gallery": [],
   "summary": "Branding for a cleaning and handyman company.",
@@ -57,74 +64,79 @@ const PROJECTS = [
     "Branding",
     "Visual identity"
   ],
-  "intro": "A branding project for Félix’s brother’s cleaning and handyman company, Prisma Property Care. The visual case study will follow with the identity and its applications.",
+  "intro": "Branding for Prisma Property Care, a cleaning and handyman company. The full branding showcase and additional images will be added soon.",
   "websiteUrl": "https://prismapropertycare.com",
+  "sections": [],
+  "coverReady": true
+},
+{
+  "slug": "solferino",
+  "liveUrl": "https://patetefelix.github.io/Solferino/",
+  "name": "Solferino",
+  "year": "2026",
+  "sector": "Spirits",
+  "kind": "concept",
+  "status": "Self-initiated concept",
+  "color": "#e5d9cb",
+  "imageBase": "",
+  "hero": "images/solferino-cover.png",
+  "galleryReady": true,
+  "gallery": [
+    "images/solferino-01-tequila-label.png",
+    "images/solferino-02-mezcal.png",
+    "images/solferino-03-rum-label.png",
+    "images/solferino-04-whisky-label.png",
+    "images/solferino-05-vodka-label.png",
+    "images/solferino-06-landscape.png",
+    "images/solferino-07-barrel-room.png",
+    "images/solferino-08-serving-ritual.png",
+    "images/solferino-09-website-home.png",
+    "images/solferino-10-website-collection.png",
+    "images/solferino-11-website-expression.png",
+    "images/solferino-12-website-story.png",
+    "images/solferino-13-website-cocktails.png"
+  ],
+  "summary": "One house. Many expressions. A spirits identity exploring material, restraint, and character.",
+  "tags": [
+    "Brand concept",
+    "Packaging direction"
+  ],
+  "intro": "A self-initiated spirits brand system built around material, typography and a shared bottle silhouette. Six expressions come together through distinct labels, warm art direction and an explorable digital experience.",
+  "credit": "Self-initiated concept by Félix Patete. The products and production scenes are part of the fictional brand presentation.",
   "sections": [
     {
-      "title": "Project scope",
-      "items": [
-        "Branding",
-        "Visual identity"
-      ]
+      "title": "One house. Six expressions.",
+      "body": "Tequila, mezcal, rum, whisky, anís and corn vodka share a recognizable bottle silhouette. Label color and typography give each expression its own character within the family."
     },
     {
-      "title": "The visual story",
-      "body": "A dedicated showcase of the project artwork is being prepared. In the meantime, explore the brand’s website below."
+      "title": "Material and atmosphere",
+      "body": "Reeded glass, cream labels, deep green and amber tones establish the visual language. Landscape, cellar and cocktail imagery extend it into a complete brand presentation."
+    },
+    {
+      "title": "A digital expression",
+      "body": "The website brings the collection, individual expressions, brand story and serving rituals into one experience. Explore the live demo above."
+    },
+    {
+      "title": "Scope note",
+      "body": "Solferino is a fictional, self-initiated design project. Product descriptions and production imagery are part of the brand concept, not claims about a real distillery."
     }
+  ],
+  "galleryAlts": [
+    "Tequila Blanco label and glass detail",
+    "Mezcal Joven bottle",
+    "Ron Añejo label",
+    "Whisky de Malta label",
+    "Vodka de Maíz label",
+    "Agave landscape brand imagery",
+    "Barrel room brand imagery",
+    "Cocktail serving ritual",
+    "Website homepage",
+    "Website collection",
+    "Website expression page",
+    "Website brand story",
+    "Website cocktail page"
   ]
 },
-  {
-    "slug": "solferino",
-    "liveUrl": "https://patetefelix.github.io/Solferino/",
-    "name": "Solferino",
-    "year": "2026",
-    "sector": "Spirits",
-    "kind": "concept",
-    "status": "Self-initiated concept",
-    "color": "#e5d9cb",
-    "imageBase": "https://alineabrands.net/",
-    "hero": "images/solferino-cover.jpg",
-    "galleryReady": false,
-    "gallery": [
-      "images/solferino-01.jpg",
-      "images/solferino-02.jpg",
-      "images/solferino-03.jpg",
-      "images/solferino-04.jpg",
-      "images/solferino-05.jpg",
-      "images/solferino-06.jpg"
-    ],
-    "summary": "One house. Many expressions. A spirits identity exploring material, restraint, and character.",
-    "tags": [
-      "Brand concept",
-      "Packaging direction"
-    ],
-    "intro": "A self-initiated spirits brand concept with an explorable digital demo. A shared identity across distinct expressions, with the liquid and materials leading the visual story.",
-    "credit": "Self-initiated concept. Digital demo available; the visual case study is being prepared.",
-    "sections": [
-      {
-        "title": "The starting point",
-        "body": "The working direction imagines Solferino as a house that gathers several traditional spirits under one identity. Mexico is the proposed symbolic home, with each expression keeping its own origin story. This is a fictional brand narrative, not a claim about a real producer."
-      },
-      {
-        "title": "One family, distinct character",
-        "body": "A shared reeded bottle silhouette is the starting point. Glass tint, label stock, and the expression name would distinguish each bottle; a restrained crimson accent would tie the family together."
-      },
-      {
-        "title": "The proposed range",
-        "items": [
-          "Tequila Blanco — clear glass, bone label, black ink",
-          "Mezcal Joven — smoke-grey glass, charcoal label, bone ink",
-          "Rum Añejo — amber glass, cane or espresso tones",
-          "Whisky — honey-amber glass, dark label, gold accents",
-          "Anís — pale green glass, sage and bone tones"
-        ]
-      },
-      {
-        "title": "A system in progress",
-        "body": "The proposed label pairs a dominant western-style wordmark with a restrained script expression name, a small crimson house mark, and concise origin and method information. This direction is still being developed; the finished case study will follow."
-      }
-    ]
-  },
 {
   "slug": "costella",
   "name": "Costella",

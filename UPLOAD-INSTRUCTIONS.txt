@@ -1,0 +1,5 @@
+Upload the files in this package to the root of the Alinea repository, preserving the existing images folder. The Prisma image belongs at images/prisma-cover.png. Index alone is not enough: data.js, script.js and styles.css connect the new galleries and video. The other HTML pages update cache references.
+
+The uploaded Lies for Sale assets must use the names from the previously supplied selection: images/lies-for-sale-logo-motion.mp4, images/lies-for-sale-logo-poster.jpg and the eight numbered .jpeg files. Solferino references the 14 PNG filenames from its prepared upload package. This package preserves those completed project references.
+
+Prisma has a thumbnail/header, website button and Coming soon note; no gallery. No files were published to GitHub by this update.
