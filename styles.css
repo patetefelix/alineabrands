@@ -50,3 +50,12 @@ em{font-family:inherit;font-style:normal;font-weight:inherit}h1,h2,h3{letter-spa
 html[data-motion=off] .editorial-reveal{opacity:1;transform:none}
 html[data-motion=off] .featured-art img{transform:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.editorial-reveal,.motion .editorial-reveal:not(.has-entered){opacity:1;transform:none;transition:none}.featured-art img{transform:none}}
+
+/* Two distinct homepage features: motion above, a green brand story below. */
+.hero-feature-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:5vw;align-items:center;padding:45px 0}
+.integrated-hero h1{font-size:clamp(48px,6.3vw,100px);line-height:1.04;margin:22px 0;letter-spacing:-.065em}
+.hero-statement{font-size:14px;max-width:370px}.hero-project-caption{border-top:1px solid var(--line);margin-top:34px;padding-top:25px}.hero-project-caption h2{font-size:clamp(25px,3vw,42px);margin:12px 0}.hero-project-caption>p:not(.eyebrow){font-size:13px;max-width:350px;margin-bottom:20px}.hero-feature-grid .logo-video-wrap{width:100%;align-self:center}
+.solferino-feature{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:6vw;align-items:center;background:var(--green);color:var(--cream)}
+.solferino-feature h2{font-size:clamp(38px,5.6vw,82px);margin:28px 0}.solferino-feature-copy>p{max-width:460px;font-size:14px}.solferino-feature-copy .solferino-feature-lead{font-size:23px;line-height:1.4;margin-bottom:22px}.solferino-feature-copy>p+p{margin-top:18px}.solferino-feature .pill{margin-top:28px}.solferino-feature .featured-art{aspect-ratio:4/5}.solferino-feature .featured-art img{object-fit:contain;background:#261b12;transform:translateY(var(--art-shift,0px))}.solferino-feature .eyebrow{font-size:10px}
+@media(max-width:800px){.hero-feature-grid{gap:28px}.integrated-hero h1{font-size:clamp(43px,6.3vw,66px)}.solferino-feature{gap:35px}.solferino-feature .featured-art{aspect-ratio:1}}
+@media(max-width:600px){.hero-feature-grid,.solferino-feature{grid-template-columns:1fr}.hero-feature-grid{padding:30px 0}.integrated-hero h1{font-size:clamp(46px,12vw,70px)}.hero-project-caption{margin-top:25px}.solferino-feature .featured-art{aspect-ratio:3/2}.solferino-feature h2{font-size:43px}}

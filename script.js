@@ -220,7 +220,7 @@ if('IntersectionObserver' in window){
  const editorialObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
   if(entry.isIntersecting){entry.target.classList.add('has-entered');editorialObserver.unobserve(entry.target);}
  }),{threshold:0.08});
- document.querySelectorAll('.section-head,.intro>div,.homepage-feature-copy,.story-section,.showcase-chapter header,.team-grid article,.scope-invitation').forEach(el=>{
+ document.querySelectorAll('.section-head,.intro>div,.homepage-feature-copy,.solferino-feature-copy,.story-section,.showcase-chapter header,.team-grid article,.scope-invitation').forEach(el=>{
   el.classList.add('editorial-reveal');editorialObserver.observe(el);
  });
 }
