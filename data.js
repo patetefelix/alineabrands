@@ -1,21 +1,88 @@
-/* ALINEA — Project content, ordered newest to oldest.
+/* ALINEA — Project content in editorial order.
    Add a new object at the front of PROJECTS to publish another project.
    kind: portfolio | concept | upcoming. Never label concepts as client work.
    galleryReady: enable only after uploading all listed images.
    imageBase: set to "" to serve an images/ folder beside these files.
    New cover art appears automatically once its filename is uploaded.
 */
-const STUDIO = {"email": "hello@alineabrands.com", "name": "Alinea Brands", "imageBase": "https://patetefelix.github.io/alineabrands/"};
+const STUDIO = {"email": "felix@alineabrands.net", "name": "Alinea Brands", "imageBase": "https://alineabrands.net/"};
 const PROJECTS = [
+{
+  "slug": "lies-for-sale",
+  "name": "Lies for Sale",
+  "sector": "Fashion",
+  "kind": "portfolio",
+  "status": "Brand project",
+  "color": "#d8ded0",
+  "imageBase": "",
+  "hero": "",
+  "galleryReady": false,
+  "gallery": [],
+  "summary": "Brand identity and collection design for Lies for Sale.",
+  "tags": [
+    "Branding",
+    "Logo design",
+    "Collection design"
+  ],
+  "intro": "The project brings together the brand identity, logo and collection design. The full visual study will follow, showing how the identity translates into the collection.",
+  "websiteUrl": "https://www.liesforsale.com/password",
+  "sections": [
+    {
+      "title": "Project scope",
+      "items": [
+        "Branding",
+        "Logo design",
+        "Collection design"
+      ]
+    },
+    {
+      "title": "The visual story",
+      "body": "A dedicated showcase of the project artwork is being prepared. In the meantime, explore the brand’s website below."
+    }
+  ]
+},
+{
+  "slug": "prisma",
+  "name": "Prisma",
+  "sector": "Property care",
+  "kind": "portfolio",
+  "status": "Brand project",
+  "color": "#d8ded0",
+  "imageBase": "",
+  "hero": "",
+  "galleryReady": false,
+  "gallery": [],
+  "summary": "Branding for a cleaning and handyman company.",
+  "tags": [
+    "Branding",
+    "Visual identity"
+  ],
+  "intro": "A branding project for Félix’s brother’s cleaning and handyman company, Prisma Property Care. The visual case study will follow with the identity and its applications.",
+  "websiteUrl": "https://prismapropertycare.com",
+  "sections": [
+    {
+      "title": "Project scope",
+      "items": [
+        "Branding",
+        "Visual identity"
+      ]
+    },
+    {
+      "title": "The visual story",
+      "body": "A dedicated showcase of the project artwork is being prepared. In the meantime, explore the brand’s website below."
+    }
+  ]
+},
   {
     "slug": "solferino",
+    "liveUrl": "https://patetefelix.github.io/Solferino/",
     "name": "Solferino",
     "year": "2026",
     "sector": "Spirits",
-    "kind": "upcoming",
-    "status": "In development",
+    "kind": "concept",
+    "status": "Self-initiated concept",
     "color": "#e5d9cb",
-    "imageBase": "https://patetefelix.github.io/alineabrands/",
+    "imageBase": "https://alineabrands.net/",
     "hero": "images/solferino-cover.jpg",
     "galleryReady": false,
     "gallery": [
@@ -31,8 +98,8 @@ const PROJECTS = [
       "Brand concept",
       "Packaging direction"
     ],
-    "intro": "An upcoming, self-initiated spirits brand concept. A shared identity across distinct expressions, with the liquid and materials leading the visual story.",
-    "credit": "Self-initiated concept in development. Final designs and project scope are not yet published.",
+    "intro": "A self-initiated spirits brand concept with an explorable digital demo. A shared identity across distinct expressions, with the liquid and materials leading the visual story.",
+    "credit": "Self-initiated concept. Digital demo available; the visual case study is being prepared.",
     "sections": [
       {
         "title": "The starting point",
