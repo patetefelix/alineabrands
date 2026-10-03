@@ -59,12 +59,12 @@ const PROJECTS = [
   "hero": "images/prisma-cover.png",
   "galleryReady": false,
   "gallery": [],
-  "summary": "Branding for a cleaning and handyman company.",
+  "summary": "A higher standard of clean.",
   "tags": [
     "Branding",
     "Visual identity"
   ],
-  "intro": "Branding for Prisma Property Care, a cleaning and handyman company. The full branding showcase and additional images will be added soon.",
+  "intro": "A higher standard of clean. Branding for Prisma Property Care. The full branding showcase and additional images will be added soon.",
   "websiteUrl": "https://prismapropertycare.com",
   "sections": [],
   "coverReady": true

@@ -25,9 +25,8 @@ function observeReveals(){
  }), {threshold:.06});
  $$('.reveal:not(.visible)').forEach(el=>revealObserver.observe(el));
 }
-if($('#homeProjects')) $('#homeProjects').innerHTML=PROJECTS.filter(p=>['costella','lies-for-sale','prisma','massalino-bakery'].includes(p.slug)).sort((a,b)=>['costella','lies-for-sale','prisma','massalino-bakery'].indexOf(a.slug)-['costella','lies-for-sale','prisma','massalino-bakery'].indexOf(b.slug)).map(projectCard).join('');
-const featuredConcept=$('.concept-feature > a');
-if(featuredConcept){featuredConcept.className='featured-concept-link';featuredConcept.innerHTML=cover(PROJECTS.find(p=>p.slug==='costella'));}
+const homeSelection=['costella','el-paraiso-heladeria','massalino-bakery','casa-de-encantos'];
+if($('#homeProjects')) $('#homeProjects').innerHTML=homeSelection.map(slug=>PROJECTS.find(p=>p.slug===slug)).filter(Boolean).map(projectCard).join('');
 function renderCollection(kind='all'){
  const list=kind==='all'?PROJECTS:PROJECTS.filter(p=>p.kind===kind);
  $('#projectGrid').innerHTML=list.map(projectCard).join('');
@@ -199,4 +198,42 @@ if(logoVideo && logoControl){
  reduced.addEventListener('change',()=>{if(reduced.matches)logoVideo.pause();else playLogo();});
  motionButton.addEventListener('click',()=>{if(motionOff)logoVideo.pause();else playLogo();});
  syncLabel();playLogo();
+}
+
+/* Native scrolling remains in control; only in-page navigation is animated. */
+document.addEventListener('click',event=>{
+ const link=event.target.closest('a[href^="#"]');
+ if(!link||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+ const hash=link.getAttribute('href');if(hash.length<2)return;
+ const target=document.getElementById(hash.slice(1));if(!target)return;
+ event.preventDefault();
+ target.scrollIntoView({behavior:motionOff?'instant':'smooth',block:'start'});
+ history.pushState(null,'',hash);
+ const hadTabindex=target.hasAttribute('tabindex');
+ if(!hadTabindex)target.setAttribute('tabindex','-1');
+ target.focus({preventScroll:true});
+ if(!hadTabindex)target.addEventListener('blur',()=>target.removeAttribute('tabindex'),{once:true});
+});
+
+/* Reveal headings and editorial sections once, without hiding content on failure. */
+if('IntersectionObserver' in window){
+ const editorialObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
+  if(entry.isIntersecting){entry.target.classList.add('has-entered');editorialObserver.unobserve(entry.target);}
+ }),{threshold:0.08});
+ document.querySelectorAll('.section-head,.intro>div,.homepage-feature-copy,.story-section,.showcase-chapter header,.team-grid article,.scope-invitation').forEach(el=>{
+  el.classList.add('editorial-reveal');editorialObserver.observe(el);
+ });
+}
+
+/* A small, bounded shift in the featured image; no wheel or touch interception. */
+const featuredArt=document.querySelector('.featured-art');
+if(featuredArt){
+ let frame=0;
+ const paint=()=>{frame=0;const r=featuredArt.getBoundingClientRect();
+  const shift=motionOff||innerWidth<700?0:Math.max(-12,Math.min(12,(innerHeight/2-r.top-r.height/2)*0.025));
+  featuredArt.style.setProperty('--art-shift',`${shift.toFixed(2)}px`);
+ };
+ const schedule=()=>{if(!frame)frame=requestAnimationFrame(paint);};
+ addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule);
+ motionButton.addEventListener('click',schedule);reduced.addEventListener('change',schedule);paint();
 }
