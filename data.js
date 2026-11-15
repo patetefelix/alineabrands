@@ -8,6 +8,211 @@
 const STUDIO = {"email": "felix@alineabrands.net", "name": "Alinea Brands", "imageBase": "https://alineabrands.net/"};
 const PROJECTS = [
 {
+ "slug": "peckish",
+ "name": "Peckish",
+ "year": "2026",
+ "sector": "Food & Drink",
+ "kind": "concept",
+ "status": "Self-initiated concept",
+ "color": "#c0271b",
+ "imageBase": "",
+ "hero": "images/peckish-cover.webp",
+ "galleryReady": true,
+ "layout": "peckish",
+ "gallery": [
+  "images/peckish-01-sign-day.webp",
+  "images/peckish-02-apron.webp",
+  "images/peckish-03-sign-night.webp",
+  "images/peckish-04-heat-lineup.webp",
+  "images/peckish-05-chick.webp",
+  "images/peckish-06-hen.webp",
+  "images/peckish-07-rooster.webp",
+  "images/peckish-08-firebird.webp",
+  "images/peckish-09-last-will.webp",
+  "images/peckish-10-gift-box.webp",
+  "images/peckish-11-menu.webp",
+  "images/peckish-12-tray-chart.webp",
+  "images/peckish-13-crew.webp",
+  "images/peckish-14-interior.webp",
+  "images/peckish-15-booths.webp",
+  "images/peckish-16-booth-glass.webp",
+  "images/peckish-17-last-will-club.webp",
+  "images/peckish-18-heat-wall.webp",
+  "images/peckish-19-packaging.webp",
+  "images/peckish-20-takeout-window.webp",
+  "images/peckish-21-sidewalk-sign.webp",
+  "images/peckish-22-tee.webp",
+  "images/peckish-23-merch.webp",
+  "images/peckish-24-cap.webp",
+  "images/peckish-25-pins.webp",
+  "images/peckish-26-stickers.webp",
+  "images/peckish-27-firebird-pour.webp",
+  "images/peckish-28-burger-basket.webp",
+  "images/peckish-29-firebird-dip.webp",
+  "images/peckish-30-tile.webp"
+ ],
+ "galleryAlts": [
+  "Peckish hanging sign with the rooster mark and script wordmark",
+  "Peckish logo printed on a staff tee under a cream apron",
+  "Illuminated Peckish sign outside the shop at night",
+  "The five Peckish hot sauces in glass bottles, from Chick to Last Will",
+  "Heat No. 01 Chick: honey butter and sweet paprika",
+  "Heat No. 02 Hen: ají amarillo, honey and lime",
+  "Heat No. 03 Rooster: smoked pineapple and habanero",
+  "Heat No. 04 Firebird: ghost pepper and roasted garlic",
+  "Heat No. 05 Last Will: Carolina reaper and black garlic",
+  "Five-sauce gift box with a waiver tag for the hottest level",
+  "Peckish printed menu on a tray",
+  "Tray liner with The Pecking Order heat chart beside a chicken burger",
+  "Peckish crew in branded caps and aprons under the menu board",
+  "Peckish interior with red tile, booths and terrazzo floor",
+  "Red booths in front of backlit reeded glass",
+  "Booth divider in reeded glass with framed mascot prints",
+  "The Last Will Club wall with instant photos and a certificate of completion",
+  "Hen hot sauce on the counter with the Heat Wall behind",
+  "Peckish takeaway packaging: bag, box, wrap, cup, napkins and sauce sachets",
+  "Peckish takeout window with red awning",
+  "Open Now sidewalk sign outside the shop",
+  "Peckish Burger Co. illustrated T-shirt",
+  "Peckish tote, cap, hoodie and T-shirt",
+  "Cream Peckish cap on autumn leaves",
+  "Peckish enamel pin set on a backing card",
+  "Red serving tray covered in Peckish stickers",
+  "Firebird sauce poured over fried chicken",
+  "Fried chicken burger and fries in a Peckish-lined basket",
+  "Firebird dipping sauce tub beside tenders and fries",
+  "Glossy red wall tile and booth detail"
+ ],
+ "summary": "Good chicken. Hot sauces. High standards. A fried chicken burger joint with its own five-level hot sauce line.",
+ "tags": [
+  "Brand identity",
+  "Packaging",
+  "Illustration",
+  "Environmental design"
+ ],
+ "intro": "Peckish is a fried chicken burger joint that bottles its own heat. One rooster, one red and one script wordmark carry the brand from the sign above the door to the sauce you take home.",
+ "credit": "Designed solo by Félix Patete. Self-initiated, not client work.",
+ "sections": [
+  {
+   "title": "The idea",
+   "body": "A burger joint and a hot sauce maker under one name. The shop gives the sauces a home; the sauces give the shop something to send out the door. Both had to feel like the same place."
+  },
+  {
+   "title": "One rooster. Five moods.",
+   "body": "The mascot changes expression as the heat climbs, from an easygoing Chick to a Last Will that has clearly seen things. The ladder is called The Pecking Order, and it runs through the labels, the menu and the tray liner."
+  },
+  {
+   "title": "Scope note",
+   "body": "Peckish is a fictional, self-initiated concept by Félix Patete, not client work. Interiors, storefronts, food and product scenes are concept visualizations; no real restaurant, production or sales are attached to it."
+  }
+ ],
+ "phrases": [
+  "Good chicken. Hot sauces. High standards.",
+  "Good food people",
+  "Better chicken always",
+  "Fresh always",
+  "Take the heat home",
+  "Stay saucy",
+  "Who’s Peckish?"
+ ],
+ "heat": [
+  {
+   "no": "01",
+   "name": "Chick",
+   "level": "Minimal heat",
+   "made": "Honey butter + sweet paprika",
+   "color": "#f0b429",
+   "ink": "#3a1a08",
+   "shot": 4
+  },
+  {
+   "no": "02",
+   "name": "Hen",
+   "level": "Mild heat",
+   "made": "Ají amarillo + honey + lime",
+   "color": "#ee8a1d",
+   "ink": "#3a1a08",
+   "shot": 5
+  },
+  {
+   "no": "03",
+   "name": "Rooster",
+   "level": "Medium heat",
+   "made": "Smoked pineapple + habanero",
+   "color": "#e2521f",
+   "ink": "#fff3df",
+   "shot": 6
+  },
+  {
+   "no": "04",
+   "name": "Firebird",
+   "level": "Very hot",
+   "made": "Ghost pepper + roasted garlic",
+   "color": "#b3140f",
+   "ink": "#fff3df",
+   "shot": 7
+  },
+  {
+   "no": "05",
+   "name": "Last Will",
+   "level": "Extreme heat",
+   "made": "Carolina reaper + black garlic",
+   "color": "#1b0d09",
+   "ink": "#fff3df",
+   "shot": 8
+  }
+ ],
+ "menu": {
+  "burgers": [
+   [
+    "The Classic",
+    "Crispy thigh, pickles, shredded lettuce, house mayo.",
+    1
+   ],
+   [
+    "Honey Butter",
+    "Crispy chicken, glossy honey butter glaze, slaw.",
+    1
+   ],
+   [
+    "Double Stack",
+    "Two crispy thighs, melted American cheese, pickles, house sauce.",
+    2
+   ],
+   [
+    "Smokehouse",
+    "Crispy chicken, smoky pineapple-habanero sauce, bacon, cheddar, onion ring.",
+    3
+   ],
+   [
+    "Verde",
+    "Crispy chicken, green herb-lime sauce, avocado, jalapeño, cabbage slaw.",
+    2
+   ],
+   [
+    "Firebird",
+    "Crispy chicken, ghost garlic sauce, pepper jack, pickled red onion.",
+    4
+   ],
+   [
+    "Garden",
+    "Crispy cauliflower patty, honey butter, slaw.",
+    1
+   ]
+  ],
+  "sides": [
+   "Fries",
+   "Slaw",
+   "Pickle chips",
+   "Mac bites"
+  ],
+  "drinks": [
+   "Lemonades",
+   "Cool-down shakes"
+  ]
+ }
+},
+{
   "slug": "lies-for-sale",
   "name": "Lies for Sale",
   "sector": "Fashion",

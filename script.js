@@ -106,6 +106,87 @@ function showcaseHTML(p) {
   </div></section>`;
 }
 
+
+/* ─── PROJECT-SPECIFIC SHOWCASES ───
+   A project with "layout": "<name>" in data.js gets its own showcase here
+   and its own colours in styles.css ([data-layout="<name>"]). */
+const heatDots = n => `<span class="pk-dots" role="img" aria-label="Heat ${n} of 5">${[1, 2, 3, 4, 5].map(i => `<i${i <= n ? ' class="on"' : ''}></i>`).join('')}</span>`;
+const LAYOUTS = {
+  peckish(p) {
+    const A = p.galleryAlts;
+    const fig = (i, cls = '') => `<figure class="${cls}">${shot(p, i, A[i])}</figure>`;
+    const head = (title, body) => `<header class="pk-head"><h2 class="h-xl">${title}</h2><p>${body}</p></header>`;
+    return `
+    <div class="ticker pk-ticker" aria-hidden="true"><div class="ticker-track"><div class="ticker-group">${p.phrases.map(t => `<span>${escapeHTML(t)}</span>`).join('')}</div></div></div>
+
+    <section class="band" data-reveal><div class="wrap">
+      ${head('A rooster<br><em>and a signature.</em>', 'An illustrated rooster and a script wordmark, in one red on cream. The pair holds on a hanging sign, a staff tee and a lightbox at night.')}
+      <div class="pk-mark">${fig(0, 'is-tall')}${fig(1)}${fig(2)}</div>
+    </div></section>
+
+    <section class="band pk-order" id="peckingOrder" style="--heat:${p.heat[0].color};--heat-ink:${p.heat[0].ink}" data-reveal><div class="wrap">
+      <header class="pk-head"><h2 class="h-xl">The Pecking Order.</h2><p>Five sauces, five heat levels. Pick a level to meet the sauce.</p></header>
+      <div class="pk-ladder">
+        <div class="pk-levels" role="group" aria-label="Choose a heat level">
+          ${p.heat.map((h, i) => `<button type="button" data-heat="${i}" aria-pressed="${i === 0}"><span>${h.no}</span><b>${escapeHTML(h.name)}</b><small>${escapeHTML(h.level)}</small>${heatDots(i + 1)}</button>`).join('')}
+        </div>
+        <div class="pk-stage">
+          <div class="pk-stage-media">${p.heat.map((h, i) => `<img${i === 0 ? ' class="is-on"' : ''} src="${imageURL(p.gallery[h.shot])}" alt="${escapeHTML(A[h.shot])}" loading="lazy" decoding="async">`).join('')}</div>
+          <p class="pk-stage-cap" aria-live="polite"><b id="heatName">Heat No. ${p.heat[0].no} ${escapeHTML(p.heat[0].name)}</b><span id="heatMade">${escapeHTML(p.heat[0].made)}</span></p>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="band" data-reveal><div class="wrap">
+      <div class="pk-pair">${fig(3)}${fig(9)}</div>
+      <p class="note pk-note">Shown in two formats, a squeeze bottle and a glass bottle. The five-sauce gift box includes a waiver for Last Will.</p>
+    </div></section>
+
+    <section class="band pk-red" data-reveal><div class="wrap">
+      ${head('Seven burgers.<br><em>Each with a heat number.</em>', 'The menu borrows the ladder from the sauces, so every burger tells you where it sits before you order.')}
+      <div class="pk-menu-grid">
+        <div class="pk-menu">
+          <h3>Burgers</h3>
+          <ul>${p.menu.burgers.map(b => `<li><div><b>${escapeHTML(b[0])}</b><span>${escapeHTML(b[1])}</span></div>${heatDots(b[2])}</li>`).join('')}</ul>
+          <div class="pk-menu-foot"><p><b>Sides</b>${p.menu.sides.map(escapeHTML).join(', ')}</p><p><b>Drinks</b>${p.menu.drinks.map(escapeHTML).join(', ')}</p></div>
+        </div>
+        <div class="pk-menu-shots">${fig(10)}${fig(11)}</div>
+      </div>
+    </div></section>
+
+    <section class="band" data-reveal><div class="wrap">
+      ${head('Red tile, reeded glass,<br><em>terrazzo.</em>', 'The room keeps to the same red and cream. Two walls do brand work of their own: the Heat Wall holds the range, and The Last Will Club keeps a photo of everyone who finished the hottest sauce.')}
+      <div class="pk-room">${fig(13, 'is-wide')}${fig(14)}${fig(15, 'is-tall')}${fig(16, 'is-tall')}${fig(17, 'is-tall')}${fig(29, 'is-tall')}</div>
+    </div></section>
+
+    <section class="band is-flush-top" data-reveal><div class="wrap">
+      ${head('Take the heat<br><em>home.</em>', 'Bag, box, wrap, cup and sauce sachets share the mark and a handful of short lines. The takeout window and the sidewalk sign bring the same voice to the street.')}
+      <div class="pk-room">${fig(18, 'is-wide')}${fig(19, 'is-tall')}${fig(20, 'is-tall')}</div>
+    </div></section>
+
+    <section class="band pk-red" data-reveal><div class="wrap">
+      ${head('Good food<br><em>people.</em>', 'Uniforms and merchandise for the crew and the regulars: tees, a cap, a hoodie, a tote, enamel pins and stickers.')}
+      <div class="pk-merch">${fig(12, 'is-wide')}${fig(21, 'is-tall')}${fig(22)}${fig(25, 'is-tall')}${fig(23)}${fig(24)}</div>
+    </div></section>
+
+    <section class="band" data-reveal><div class="wrap">
+      <div class="pk-food">${fig(26)}${fig(27)}${fig(28)}</div>
+    </div></section>`;
+  }
+};
+function initLayout(p) {
+  const order = $('#peckingOrder');
+  if (!order) return;
+  const buttons = $$('[data-heat]', order), shots = $$('.pk-stage-media img', order);
+  buttons.forEach(btn => btn.addEventListener('click', () => {
+    const i = Number(btn.dataset.heat), h = p.heat[i];
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    shots.forEach((img, n) => img.classList.toggle('is-on', n === i));
+    order.style.setProperty('--heat', h.color); order.style.setProperty('--heat-ink', h.ink);
+    $('#heatName').textContent = `Heat No. ${h.no} ${h.name}`; $('#heatMade').textContent = h.made;
+  }));
+}
+
 const projectRoot = $('#projectRoot');
 if (projectRoot) {
   const slug = new URLSearchParams(location.search).get('p');
@@ -115,6 +196,7 @@ if (projectRoot) {
     projectRoot.innerHTML = `<section class="band"><div class="wrap error-page"><p class="note">Project not found</p><h1 class="h-xl">Off the shelf.<br><em>Back to the work?</em></h1><a class="pill" href="work.html"><span>Explore the collection</span>${ARROW}</a></div></section>`;
   } else {
     activeProject = p;
+    if (p.layout) projectRoot.dataset.layout = p.layout;
     document.title = `${p.name} — Alinea Brands`;
     $('meta[name="description"]').content = p.summary;
     $('link[rel="canonical"]').href = `https://alineabrands.net/${projectURL(p)}`;
@@ -148,13 +230,14 @@ if (projectRoot) {
       </div>
     </div></section>
 
-    ${p.showcase ? showcaseHTML(p) : p.galleryReady ? `<section class="band is-flush-top" aria-label="${escapeHTML(p.name)} project gallery"><div class="wrap gallery">${p.gallery.map((src, i) => shot(p, i, (p.galleryAlts && p.galleryAlts[i]) || `${p.name}, project detail ${i + 1}`)).join('')}</div></section>` : ''}
+    ${LAYOUTS[p.layout] ? LAYOUTS[p.layout](p) : p.showcase ? showcaseHTML(p) : p.galleryReady ? `<section class="band is-flush-top" aria-label="${escapeHTML(p.name)} project gallery"><div class="wrap gallery">${p.gallery.map((src, i) => shot(p, i, (p.galleryAlts && p.galleryAlts[i]) || `${p.name}, project detail ${i + 1}`)).join('')}</div></section>` : ''}
 
     <section class="band on-green" data-reveal><div class="wrap">
       <i class="rule"></i>
       <a class="next" href="${projectURL(next)}"><span><span class="note">Next in the collection</span></span><span class="next-name">${escapeHTML(next.name)}</span>${ARROW}</a>
     </div></section>`;
     $$('[data-gallery-index]').forEach(button => button.addEventListener('click', () => openGallery(Number(button.dataset.galleryIndex))));
+    initLayout(p);
   }
 }
 

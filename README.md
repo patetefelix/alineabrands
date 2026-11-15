@@ -10,7 +10,9 @@ Replace these files in the repo root:
 Add this new folder (keep everything else in `images/` as it is):
 `images/covers/` — 12 light `.webp` images used by cards, the home shelf, the index and the portraits.
 
-`data.js`, the SVG files, `CNAME` and the existing `images/` are unchanged.
+Also replace `data.js` (it now includes Peckish) and add the 31 `images/peckish-*.webp` files.
+
+The SVG files, `CNAME` and the other existing images are unchanged.
 
 ## Editing
 
@@ -25,3 +27,7 @@ Add this new folder (keep everything else in `images/` as it is):
 - Body copy is indented to one shared column (`--indent` in `styles.css`), a nod to the name: an alinea opens a paragraph.
 - Motion: one load sequence per page, the home shelf, the pointer preview on the index, drawn rules, the ticker and the background wash. "Motion on/off" in the footer and the system reduced-motion setting turn all of it off.
 - The contact form opens an email draft to `felix@alineabrands.net`; nothing is sent in the background.
+
+## Project-specific showcases
+
+A project with `"layout": "<name>"` in `data.js` gets its own case study layout. The layout's HTML lives in `LAYOUTS` in `script.js` and its colours in `styles.css` under `[data-layout="<name>"]`. Peckish is the first: brand red and cream, the interactive Pecking Order, and the menu set as type. Its heat levels, menu and phrases are plain data in the Peckish entry in `data.js`.
