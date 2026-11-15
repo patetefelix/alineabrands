@@ -1,15 +1,27 @@
-# Alinea Brands — editorial edition
+# Alinea Brands — v4
 
-Upload all site files from this folder to the root of the existing GitHub repository. Keep your images folder. The `CNAME` file preserves `alineabrands.net`. Include the new `alinea-ui.svg` sprite for menu, expand and close icons.
+Static site for alineabrands.net. No build step. The `CNAME` file keeps the domain.
 
-Contact links and inquiry drafts use `felix@alineabrands.net`. This update does not create the mailbox or change DNS. The form opens an email draft and provides a copy-brief option; it has no server submission.
+## Upload
 
-The work collection contains nine projects: Lies for Sale, Prisma, Solferino, Costella, Massalino, El Paraíso, Casa de Encantos, Humboldt and Phila Cup. The homepage features four selected projects; all nine remain in Work.
+Replace these files in the repo root:
+`index.html`, `work.html`, `project.html`, `studio.html`, `contact.html`, `404.html`, `styles.css`, `script.js`, `README.md`
 
-Lies for Sale and Prisma have intentional typographic covers while artwork is prepared. Set a hero path and enable galleryReady when their assets are supplied. Solferino remains clearly labeled as a self-initiated concept and has a live demo link. Its future imagery is reserved as solferino-cover.jpg and solferino-01.jpg through solferino-06.jpg.
+Add this new folder (keep everything else in `images/` as it is):
+`images/covers/` — 12 light `.webp` images used by cards, the home shelf, the index and the portraits.
 
-Costella retains its existing 26 filenames and individual two- and four-image grids. See COSTELLA-IMAGE-GUIDE.md. Existing legacy projects keep their image URLs. Portraits use the new domain with the same image filenames.
+`data.js`, the SVG files, `CNAME` and the existing `images/` are unchanged.
 
-Manrope is the only text font. The original SVG brand wordmark is retained. The footer gradient is static; the turning mark and pointer-controlled shelf have been removed. Reduced-motion support and the motion toggle remain for subtle background motion and reveals.
+## Editing
 
-See RENOVATION-NOTES.md for the update summary.
+- Projects live in `data.js`. Add a new object at the front of `PROJECTS` to publish a project; it appears in the home index and on Work automatically.
+- A project's card image is `images/covers/<slug>.webp` (about 1700px wide). If that file is missing, the site falls back to the project's `hero` image, so a cover is optional.
+- The four projects on the home shelf are written in `index.html` (`.shelf-item` blocks).
+- Concept projects must stay labelled as concepts (`kind: "concept"`).
+
+## Design notes
+
+- Manrope is the only typeface. Green, cream and lime are unchanged.
+- Body copy is indented to one shared column (`--indent` in `styles.css`), a nod to the name: an alinea opens a paragraph.
+- Motion: one load sequence per page, the home shelf, the pointer preview on the index, drawn rules, the ticker and the background wash. "Motion on/off" in the footer and the system reduced-motion setting turn all of it off.
+- The contact form opens an email draft to `felix@alineabrands.net`; nothing is sent in the background.

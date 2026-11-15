@@ -1,118 +1,215 @@
+/* ============================================================
+   ALINEA BRANDS — v4
+   Project content lives in data.js. This file renders it and
+   runs the interaction layer.
+   ============================================================ */
 'use strict';
 const $ = (s, root = document) => root.querySelector(s);
 const $$ = (s, root = document) => [...root.querySelectorAll(s)];
-const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 const projectURL = p => `project.html?p=${encodeURIComponent(p.slug)}`;
 const imageURL = (path, base = '') => base + path.split('/').map(encodeURIComponent).join('/');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
-let motionOff = reduced.matches;
-try { motionOff ||= localStorage.getItem('alinea-motion') === 'off'; } catch {}
-const cover = p => {
-  if (!p.galleryReady && !p.hero) return `<div class="project-title-art"><span class="eyebrow">${escapeHTML(p.sector)} / Brand project</span><strong>${escapeHTML(p.name)}</strong><span>${p.tags.map(escapeHTML).join(' · ')}</span></div>`;
-  const ready = p.galleryReady || p.coverReady;
-  if (ready) return `<img src="${imageURL(p.hero,p.imageBase)}" alt="${escapeHTML(p.name)} — brand identity and packaging" loading="lazy">`;
-  return `<div class="concept-cover ${p.slug === 'costella' ? 'costella' : 'solferino'}"><span class="eyebrow">${escapeHTML(p.status)}</span><strong>${escapeHTML(p.name)}</strong><span>${p.slug === 'costella' ? 'Italian aperitivo, zero proof.' : 'One house. Many expressions.'}</span><span class="concept-foot">${p.kind === 'upcoming' ? 'A brand world in the making' : 'A self-initiated brand world'} </span><img class="pending-art" src="${imageURL(p.hero,p.imageBase)}" alt="${escapeHTML(p.name)} brand artwork" loading="lazy"></div>`;
-};
-function projectCard(p){
- return `<a class="project-card reveal" href="${projectURL(p)}" style="--card-color:${p.color}"><div class="project-media">${cover(p)}<span class="project-open" aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></span></div><div class="project-info"><div><h3>${escapeHTML(p.name)}</h3><small>${escapeHTML(p.status)}</small></div><p>${escapeHTML(p.summary)}</p><div class="project-tags">${p.tags.map(escapeHTML).join(' / ')}</div></div></a>`;
-}
-let revealObserver;
-function observeReveals(){
- if (motionOff) return;
- if (!revealObserver) revealObserver = new IntersectionObserver(entries => entries.forEach(entry=>{
-  if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target);}
- }), {threshold:.06});
- $$('.reveal:not(.visible)').forEach(el=>revealObserver.observe(el));
-}
-const homeSelection=['costella','el-paraiso-heladeria','massalino-bakery','casa-de-encantos'];
-if($('#homeProjects')) $('#homeProjects').innerHTML=homeSelection.map(slug=>PROJECTS.find(p=>p.slug===slug)).filter(Boolean).map(projectCard).join('');
-function renderCollection(kind='all'){
- const list=kind==='all'?PROJECTS:PROJECTS.filter(p=>p.kind===kind);
- $('#projectGrid').innerHTML=list.map(projectCard).join('');
- $('#collectionCount').textContent=`${String(list.length).padStart(2,'0')} ${list.length===1?'project':'projects'}`;
- observeReveals();
-}
-if($('#projectGrid')){
- renderCollection();
- $$('[data-filter]').forEach(btn=>btn.addEventListener('click',()=>{
-  $$('[data-filter]').forEach(el=>el.setAttribute('aria-pressed',String(el===btn)));
-  renderCollection(btn.dataset.filter);
- }));
+const root = document.documentElement;
+let motionOff = root.dataset.motion === 'off';
+
+const ARROW = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M3 12H20M13 5L20 12L13 19" stroke="currentColor" stroke-width="2"/></svg>';
+const PLUS = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.5"/></svg>';
+
+/* Cards and rows use a light cover (images/covers/<slug>.webp) and fall
+   back to the project's original hero image if that file is missing. */
+const coverSrc = p => `images/covers/${encodeURIComponent(p.slug)}.webp`;
+const heroSrc = p => imageURL(p.hero, p.imageBase);
+const coverImg = (p, cls = '') => `<img ${cls ? `class="${cls}" ` : ''}src="${coverSrc(p)}" data-fallback="${heroSrc(p)}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async">`;
+const kindLine = p => [p.sector, p.year].filter(Boolean).join(', ');
+
+function projectCard(p, i = 0) {
+  return `<a class="card" href="${projectURL(p)}" style="--tint:${p.color};--i:${i}">
+    <span class="card-media">${coverImg(p)}<span class="card-go" aria-hidden="true">${ARROW}</span></span>
+    <span class="card-info"><b>${escapeHTML(p.name)}</b><small>${escapeHTML(p.status)}</small><p>${escapeHTML(p.summary)}</p></span>
+  </a>`;
 }
 
-/* Case studies remain data-driven as the collection grows. */
-let activeGallery=[];
-let activeProject=null;
-function showcaseHTML(p){
- return `<div class="costella-showcase">${p.showcase.map((chapter,n)=>`<section class="showcase-chapter section"><header><p class="eyebrow">${String(n+1).padStart(2,'0')} / Costella</p><h2>${escapeHTML(chapter.title)}</h2><p>${escapeHTML(chapter.body)}</p></header><div class="showcase-plates">${chapter.groups.map(groupIndex=>{const group=p.galleryGroups[groupIndex];return `<div class="showcase-grid showcase-grid--${group.columns}">${group.indices.map(i=>`<figure><button class="gallery-image" data-gallery-index="${i+1}" aria-label="Enlarge: ${escapeHTML(p.galleryAlts[i])}"><img src="${imageURL(p.gallery[i],p.imageBase)}" alt="${escapeHTML(p.galleryAlts[i])}" loading="lazy" decoding="async"><span aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-ui.svg#plus"></use></svg></span></button><figcaption>${String(i+1).padStart(2,'0')} / ${escapeHTML(p.galleryAlts[i])}</figcaption></figure>`).join('')}</div>`;}).join('')}</div></section>`).join('')}<section class="showcase-end section"><p class="eyebrow">Explore Costella</p><h2>Step into the brand.</h2><div><a class="pill" href="${p.liveUrl}" target="_blank" rel="noopener">Explore the concept website</a><a class="pill" href="${p.behanceUrl}" target="_blank" rel="noopener">View on Behance</a></div><p>A fictional brand experience, presented as a self-initiated design study.</p></section></div>`;
-}
-const root=$('#projectRoot');
-if(root){
- const slug=new URLSearchParams(location.search).get('p');
- const p=PROJECTS.find(item=>item.slug===slug);
- if(!p){
-  document.title='Project not found — Alinea Brands';
-  root.innerHTML='<section class="error-page section"><p class="eyebrow">Project not found</p><h1>Off the shelf.<br><em>Back to the work?</em></h1><a class="pill" href="work.html">Explore the collection </a></section>';
- }else{
-  activeProject=p;
-  document.title=`${p.name} — Alinea Brands`;
-  $('meta[name="description"]').content=p.summary;
-  $('link[rel="canonical"]').href=`https://alineabrands.net/${projectURL(p)}`;
-  const next=PROJECTS[(PROJECTS.indexOf(p)+1)%PROJECTS.length];
-  const sections=p.sections||[];
-  activeGallery=p.galleryReady?[p.hero,...p.gallery]:[];
-  root.innerHTML=`<section class="case-heading section"><a class="text-link" href="work.html"> All work</a><div class="case-title"><div><p class="eyebrow">${escapeHTML(p.sector)} / ${escapeHTML(p.status)}</p><h1>${escapeHTML(p.name)}</h1></div><p>${escapeHTML(p.summary)}</p></div>${p.liveUrl||p.websiteUrl?`<div class="case-actions"><a class="pill" href="${escapeHTML(p.liveUrl||p.websiteUrl)}" target="_blank" rel="noopener">${p.liveUrl?'View live demo':'Visit brand website'}</a>${p.slug==='lies-for-sale'?'<p>The brand website currently links to its password page.</p>':''}</div>`:''}<div class="case-cover" style="--card-color:${p.color}">${cover(p)}</div></section><section class="case-story section" ${p.slug==='prisma'?'hidden':''}><aside><p class="eyebrow">${p.kind==='upcoming'?'Project preview':'Inside the brand'}</p><dl><dt>Discipline</dt><dd>${p.tags.map(escapeHTML).join('<br>')}</dd><dt>Project</dt><dd>${escapeHTML(p.status)}</dd>${p.credit?`<dt>Credit &amp; scope</dt><dd>${escapeHTML(p.credit)}</dd>`:''}</dl>${p.behanceUrl?`<a class="text-link" href="${p.behanceUrl}" target="_blank" rel="noopener">On Behance</a>`:p.kind==='portfolio'?'<a class="text-link" href="https://www.behance.net/alineabrands" target="_blank" rel="noopener">On Behance </a>':''}</aside><div class="story-copy"><p class="case-lead">${escapeHTML(p.intro)}</p>${sections.map((section,i)=>`<section class="story-section"><span class="eyebrow">${String(i+1).padStart(2,'0')}</span><div><h2>${escapeHTML(section.title)}</h2>${section.body?`<p>${escapeHTML(section.body)}</p>`:''}${section.items?`<ul>${section.items.map(item=>`<li>${escapeHTML(item)}</li>`).join('')}</ul>`:''}</div></section>`).join('')}</div></section>${p.showcase?showcaseHTML(p):p.galleryReady?`<section class="case-gallery section" aria-label="${escapeHTML(p.name)} project gallery">${p.gallery.map((src,i)=>`<button class="gallery-image" data-gallery-index="${i+1}" aria-label="Enlarge ${escapeHTML(p.name)} image ${i+1}"><img src="${imageURL(src,p.imageBase)}" alt="${escapeHTML(p.name)} — project detail ${i+1}" loading="lazy"><span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></span></button>`).join('')}</section>`:`<section class="imagery-note section"><p class="eyebrow">Coming soon</p><h2>${escapeHTML(p.name)}.<br>More to discover.</h2><p>The full branding showcase and additional images will be added soon. ${p.liveUrl?'Explore the live demo above for a closer look at the brand.':'The complete visual showcase will follow.'}</p></section>`}<section class="next-study section"><p class="eyebrow">Next in the collection</p><a href="${projectURL(next)}">${escapeHTML(next.name)} <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></a></section>`;
-  $$('[data-gallery-index]').forEach(button=>button.addEventListener('click',()=>openGallery(Number(button.dataset.galleryIndex))));
- }
+/* ─── HOME: the collection as an index, with a preview that follows the pointer ─── */
+const homeIndex = $('#homeIndex');
+if (homeIndex) {
+  homeIndex.innerHTML = PROJECTS.map((p, i) => `<a class="row" href="${projectURL(p)}" data-peek="${i}">
+    <span class="row-kind">${escapeHTML(p.status)}</span>${coverImg(p, 'row-thumb')}
+    <span class="row-name">${escapeHTML(p.name)}</span>
+    <span class="row-sector">${escapeHTML(kindLine(p))}</span>
+    <span class="row-go" aria-hidden="true">${ARROW}</span>
+  </a>`).join('');
+
+  const peek = document.createElement('div');
+  peek.className = 'peek';
+  peek.setAttribute('aria-hidden', 'true');
+  peek.innerHTML = PROJECTS.map(p => `<img src="${coverSrc(p)}" data-fallback="${heroSrc(p)}" alt="" loading="lazy">`).join('');
+  document.body.appendChild(peek);
+  const shots = $$('img', peek);
+  let tx = 0, ty = 0, x = 0, y = 0, lastX = 0, running = false;
+  const follow = () => {
+    x += (tx - x) * .14; y += (ty - y) * .14;
+    const tilt = clamp((tx - lastX) * .5, -8, 8); lastX += (tx - lastX) * .2;
+    peek.style.setProperty('--px', `${x}px`); peek.style.setProperty('--py', `${y}px`); peek.style.setProperty('--pr', `${tilt.toFixed(2)}deg`);
+    if (running) requestAnimationFrame(follow);
+  };
+  homeIndex.addEventListener('pointermove', event => {
+    if (!finePointer.matches || motionOff) return;
+    const w = peek.offsetWidth, h = peek.offsetHeight;
+    tx = clamp(event.clientX + 28, 12, innerWidth - w - 12);
+    ty = clamp(event.clientY - h / 2, 12, innerHeight - h - 12);
+    const row = event.target.closest('.row');
+    if (!row) return;
+    shots.forEach((img, i) => img.classList.toggle('is-on', i === Number(row.dataset.peek)));
+    if (!running) { running = true; x = tx; y = ty; lastX = tx; peek.classList.add('is-on'); requestAnimationFrame(follow); }
+  });
+  const hide = () => { running = false; peek.classList.remove('is-on'); };
+  homeIndex.addEventListener('pointerleave', hide);
+  addEventListener('scroll', hide, { passive: true });
 }
 
-/* Full-resolution gallery with native dialog focus containment. */
-let galleryIndex=0, opener=null;
-let dialog;
-if(activeGallery.length){
- dialog=document.createElement('dialog');
- dialog.className='lightbox';
- dialog.setAttribute('aria-label','Project image viewer');
- dialog.innerHTML='<div class="lightbox-toolbar"><button data-prev aria-label="Previous image"><svg class="arrow-icon arrow-back" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></button><span class="lightbox-count" aria-live="polite"></span><button data-next aria-label="Next image"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-arrow.svg#arrow"></use></svg></button><button data-close aria-label="Close image viewer">Close <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="alinea-ui.svg#close"></use></svg></button></div><div class="lightbox-scroll"><img alt=""></div>';
- document.body.appendChild(dialog);
- $('[data-close]',dialog).addEventListener('click',()=>dialog.close());
- $('[data-prev]',dialog).addEventListener('click',()=>showGallery(galleryIndex-1));
- $('[data-next]',dialog).addEventListener('click',()=>showGallery(galleryIndex+1));
- dialog.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();showGallery(galleryIndex-1);}if(e.key==='ArrowRight'){e.preventDefault();showGallery(galleryIndex+1);}});
- dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});
- dialog.addEventListener('close',()=>{document.body.style.overflow='';opener?.focus();});
+/* ─── WORK: filterable grid ─── */
+const grid = $('#projectGrid');
+function renderCollection(kind = 'all', animate = true) {
+  const list = kind === 'all' ? PROJECTS : PROJECTS.filter(p => p.kind === kind);
+  grid.classList.toggle('is-swapping', animate);
+  grid.innerHTML = list.map(projectCard).join('');
+  $('#collectionCount').textContent = `${list.length} ${list.length === 1 ? 'project' : 'projects'}`;
 }
-function showGallery(index){
- galleryIndex=(index+activeGallery.length)%activeGallery.length;
- const img=$('img',dialog);
- img.src=imageURL(activeGallery[galleryIndex],activeProject.imageBase);
- img.alt=galleryIndex>0 && activeProject.galleryAlts ? activeProject.galleryAlts[galleryIndex-1] : `${activeProject.name} — image ${galleryIndex+1} of ${activeGallery.length}`;
- $('.lightbox-count',dialog).textContent=`${galleryIndex+1} / ${activeGallery.length}`;
- $('.lightbox-scroll',dialog).scrollTop=0;
+if (grid) {
+  $$('[data-filter]').forEach(btn => {
+    const kind = btn.dataset.filter;
+    $('sup', btn).textContent = kind === 'all' ? PROJECTS.length : PROJECTS.filter(p => p.kind === kind).length;
+    btn.addEventListener('click', () => {
+      $$('[data-filter]').forEach(el => el.setAttribute('aria-pressed', String(el === btn)));
+      renderCollection(kind);
+    });
+  });
+  renderCollection('all', false);
 }
-function openGallery(index){if(!dialog)return;opener=document.activeElement;showGallery(index);dialog.showModal();document.body.style.overflow='hidden';}
 
-/* Progressive cover reveal; unuploaded artwork never appears as a broken image. */
-function loadedImage(img){if(img.classList.contains('pending-art'))img.parentElement.classList.add('art-ready');}
-function failedImage(img){
- if(img.classList.contains('pending-art')){img.remove();return;}
- if(img.closest('.lightbox'))return;
- const note=document.createElement('div');note.className='image-fallback';note.textContent=img.alt||'Project image';img.replaceWith(note);
-}
-document.addEventListener('load',e=>{if(e.target instanceof HTMLImageElement)loadedImage(e.target);},true);
-document.addEventListener('error',e=>{if(e.target instanceof HTMLImageElement)failedImage(e.target);},true);
-$$('img').forEach(img=>{if(img.complete){if(img.naturalWidth)loadedImage(img);else failedImage(img);}});
+/* ─── CASE STUDY ─── */
+let activeGallery = [];
+let activeProject = null;
+const shot = (p, i, alt) => `<button type="button" class="shot" data-gallery-index="${i + 1}" aria-label="Enlarge: ${escapeHTML(alt)}"><img src="${imageURL(p.gallery[i], p.imageBase)}" alt="${escapeHTML(alt)}" loading="lazy" decoding="async"><span aria-hidden="true">${PLUS}</span></button>`;
 
-/* Mobile navigation is a disclosure, leaving normal page navigation intact. */
-const menu=$('.menu-toggle'),nav=$('.nav');
-function closeMenu(){nav.classList.remove('menu-open');menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Open navigation');}
-menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';nav.classList.toggle('menu-open',open);menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close navigation':'Open navigation');});
-addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('menu-open')){closeMenu();menu.focus();}});
-document.addEventListener('click',e=>{if(!nav.contains(e.target))closeMenu();});
-matchMedia('(min-width:601px)').addEventListener('change',e=>{if(e.matches)closeMenu();});
-$$('.nav nav a').forEach(a=>{if(a.dataset.page===document.body.dataset.page)a.setAttribute('aria-current','page');});
-$$('.js-year').forEach(el=>el.textContent=new Date().getFullYear());
+function showcaseHTML(p) {
+  return p.showcase.map((chapter, n) => `<section class="chapter"><div class="wrap">
+    <header><span class="note">Part ${n + 1} of ${p.showcase.length}</span><h2 class="h-lg">${escapeHTML(chapter.title)}</h2><p>${escapeHTML(chapter.body)}</p></header>
+    <div class="plates">${chapter.groups.map(g => { const group = p.galleryGroups[g]; return `<div class="plate" style="--cols:${group.columns}">${group.indices.map(i => `<figure>${shot(p, i, p.galleryAlts[i])}<figcaption>${escapeHTML(p.galleryAlts[i])}</figcaption></figure>`).join('')}</div>`; }).join('')}</div>
+  </div></section>`).join('') + `<section class="band"><div class="wrap case-end">
+    <h2 class="h-xl">Step into the brand.</h2>
+    <div><a class="pill" href="${p.liveUrl}" target="_blank" rel="noopener"><span>Explore the concept website</span>${ARROW}</a><a class="pill is-line" href="${p.behanceUrl}" target="_blank" rel="noopener"><span>View on Behance</span></a></div>
+    <p class="note">A fictional brand experience, presented as a self-initiated design study.</p>
+  </div></section>`;
+}
+
+const projectRoot = $('#projectRoot');
+if (projectRoot) {
+  const slug = new URLSearchParams(location.search).get('p');
+  const p = PROJECTS.find(item => item.slug === slug);
+  if (!p) {
+    document.title = 'Project not found — Alinea Brands';
+    projectRoot.innerHTML = `<section class="band"><div class="wrap error-page"><p class="note">Project not found</p><h1 class="h-xl">Off the shelf.<br><em>Back to the work?</em></h1><a class="pill" href="work.html"><span>Explore the collection</span>${ARROW}</a></div></section>`;
+  } else {
+    activeProject = p;
+    document.title = `${p.name} — Alinea Brands`;
+    $('meta[name="description"]').content = p.summary;
+    $('link[rel="canonical"]').href = `https://alineabrands.net/${projectURL(p)}`;
+    const next = PROJECTS[(PROJECTS.indexOf(p) + 1) % PROJECTS.length];
+    const sections = p.sections || [];
+    activeGallery = p.galleryReady ? [p.hero, ...p.gallery] : [];
+    const visit = p.liveUrl || p.websiteUrl;
+    const media = p.heroVideo
+      ? `<video data-case-video muted loop playsinline autoplay preload="metadata" poster="${coverSrc(p)}" src="${imageURL(p.heroVideo, p.imageBase)}" aria-label="${escapeHTML(p.name)} logo animation"></video>`
+      : `<img src="${heroSrc(p)}" alt="${escapeHTML(p.name)}, brand identity" fetchpriority="high">`;
+    const facts = [['Discipline', p.tags.map(escapeHTML).join('<br>')], ['Sector', escapeHTML(p.sector)], ['Project', escapeHTML(p.status)], p.year && ['Year', escapeHTML(p.year)], p.credit && ['Credit and scope', escapeHTML(p.credit)]].filter(Boolean);
+    const behance = p.behanceUrl || (p.kind === 'portfolio' ? 'https://www.behance.net/alineabrands' : '');
+    const story = sections.length || p.galleryReady;
+
+    projectRoot.innerHTML = `
+    <section class="case-head page-intro"><div class="wrap">
+      <a class="link" href="work.html"><svg class="arrow-back" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12H20M13 5L20 12L13 19" stroke="currentColor" stroke-width="2"/></svg>All work</a>
+      <div class="case-title">
+        <div><span class="note">${escapeHTML(p.sector)}, ${escapeHTML(p.status.toLowerCase())}</span><h1 class="${p.name.length <= 14 ? 'mega' : 'h-xl'}"><span class="ln"><span>${escapeHTML(p.name)}</span></span></h1></div>
+        <p class="lede">${escapeHTML(p.summary)}</p>
+      </div>
+      ${visit ? `<div class="case-actions"><a class="pill" href="${escapeHTML(visit)}" target="_blank" rel="noopener"><span>${p.liveUrl ? 'View live demo' : 'Visit brand website'}</span>${ARROW}</a>${p.slug === 'lies-for-sale' ? '<p class="note">The brand website currently links to its password page.</p>' : ''}</div>` : ''}
+      <div class="case-cover" style="--tint:${p.color}">${media}</div>
+    </div></section>
+
+    <section class="band" data-reveal><div class="wrap case-story">
+      <aside class="case-facts"><dl>${facts.map(f => `<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl>${behance ? `<a class="link" href="${behance}" target="_blank" rel="noopener">On Behance${ARROW}</a>` : ''}</aside>
+      <div>
+        <p class="case-lead">${escapeHTML(p.intro)}</p>
+        ${story ? sections.map(section => `<section class="story-part"><h2 class="h-md">${escapeHTML(section.title)}</h2><div>${section.body ? `<p>${escapeHTML(section.body)}</p>` : ''}${section.items ? `<ul>${section.items.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>` : ''}</div></section>`).join('') : `<section class="story-part"><h2 class="h-md">More to discover</h2><div><p>The full branding showcase and additional images will be added soon.</p></div></section>`}
+      </div>
+    </div></section>
+
+    ${p.showcase ? showcaseHTML(p) : p.galleryReady ? `<section class="band is-flush-top" aria-label="${escapeHTML(p.name)} project gallery"><div class="wrap gallery">${p.gallery.map((src, i) => shot(p, i, (p.galleryAlts && p.galleryAlts[i]) || `${p.name}, project detail ${i + 1}`)).join('')}</div></section>` : ''}
+
+    <section class="band on-green" data-reveal><div class="wrap">
+      <i class="rule"></i>
+      <a class="next" href="${projectURL(next)}"><span><span class="note">Next in the collection</span></span><span class="next-name">${escapeHTML(next.name)}</span>${ARROW}</a>
+    </div></section>`;
+    $$('[data-gallery-index]').forEach(button => button.addEventListener('click', () => openGallery(Number(button.dataset.galleryIndex))));
+  }
+}
+
+/* Full-size viewer, using the native dialog for focus containment. */
+let galleryIndex = 0, opener = null, dialog;
+if (activeGallery.length) {
+  dialog = document.createElement('dialog');
+  dialog.className = 'lightbox';
+  dialog.setAttribute('aria-label', 'Project image viewer');
+  dialog.innerHTML = `<div class="lightbox-bar"><span class="lightbox-count" aria-live="polite"></span><button type="button" data-prev aria-label="Previous image"><svg class="arrow-back" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12H20M13 5L20 12L13 19" stroke="currentColor" stroke-width="2"/></svg></button><button type="button" data-next aria-label="Next image">${ARROW}</button><button type="button" data-close>Close</button></div><div class="lightbox-scroll"><img alt=""></div>`;
+  document.body.appendChild(dialog);
+  $('[data-close]', dialog).addEventListener('click', () => dialog.close());
+  $('[data-prev]', dialog).addEventListener('click', () => showGallery(galleryIndex - 1));
+  $('[data-next]', dialog).addEventListener('click', () => showGallery(galleryIndex + 1));
+  dialog.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') { e.preventDefault(); showGallery(galleryIndex - 1); } if (e.key === 'ArrowRight') { e.preventDefault(); showGallery(galleryIndex + 1); } });
+  dialog.addEventListener('click', e => { if (e.target === dialog || e.target.classList.contains('lightbox-scroll')) dialog.close(); });
+  dialog.addEventListener('close', () => { document.body.style.overflow = ''; opener?.focus(); });
+}
+function showGallery(index) {
+  galleryIndex = (index + activeGallery.length) % activeGallery.length;
+  const img = $('.lightbox-scroll img', dialog);
+  img.src = imageURL(activeGallery[galleryIndex], activeProject.imageBase);
+  img.alt = galleryIndex > 0 && activeProject.galleryAlts ? activeProject.galleryAlts[galleryIndex - 1] : `${activeProject.name}, image ${galleryIndex + 1} of ${activeGallery.length}`;
+  $('.lightbox-count', dialog).textContent = `${galleryIndex + 1} / ${activeGallery.length}`;
+}
+function openGallery(index) { if (!dialog) return; opener = document.activeElement; showGallery(index); dialog.showModal(); document.body.style.overflow = 'hidden'; }
+
+/* A missing cover falls back to the original image, then to a tinted label. */
+function failedImage(img) {
+  if (img.dataset.fallback && !img.dataset.fellBack) { img.dataset.fellBack = '1'; img.src = img.dataset.fallback; return; }
+  if (img.closest('.lightbox, .peek') || img.classList.contains('row-thumb') || img.classList.contains('next-thumb')) { img.style.visibility = 'hidden'; return; }
+  const note = document.createElement('div'); note.className = 'image-fallback'; note.textContent = img.alt || 'Project image'; img.replaceWith(note);
+}
+document.addEventListener('error', e => { if (e.target instanceof HTMLImageElement) failedImage(e.target); }, true);
+$$('img').forEach(img => { if (img.complete && !img.naturalWidth) failedImage(img); });
+
+/* ─── NAVIGATION ─── */
+const menu = $('.menu-toggle'), nav = $('.nav');
+function closeMenu() { nav.classList.remove('menu-open'); menu.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-label', 'Open navigation'); }
+menu.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') !== 'true'; nav.classList.toggle('menu-open', open); menu.setAttribute('aria-expanded', String(open)); menu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('menu-open')) { closeMenu(); menu.focus(); } });
+document.addEventListener('click', e => { if (!nav.contains(e.target)) closeMenu(); });
+matchMedia('(min-width:761px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
+$$('.nav nav a').forEach(a => { if (a.dataset.page === document.body.dataset.page) a.setAttribute('aria-current', 'page'); });
+$$('.js-year').forEach(el => { el.textContent = new Date().getFullYear(); });
+
+// The studio works from two places; show the time in both.
+const clock = $('#clock');
+function tick() {
+  try {
+    const at = zone => new Intl.DateTimeFormat('en-US', { timeZone: zone, hour: 'numeric', minute: '2-digit' }).format(new Date());
+    clock.innerHTML = `<b>Medellín</b> ${at('America/Bogota')}<span> &nbsp;/&nbsp; <b>Florida</b> ${at('America/New_York')}</span>`;
+  } catch { clock.hidden = true; }
+}
+if (clock) { tick(); setInterval(tick, 30000); }
 
 /* A completed brief opens locally; nothing is submitted in the background. */
 const form=$('#contactForm');
@@ -134,17 +231,6 @@ if(form){
   catch{const fallback=$('#briefFallback');fallback.hidden=false;fallback.value=brief();fallback.focus();fallback.select();$('#formStatus').textContent='Select and copy the brief below, then paste it into your email.';}
  });
 }
-
-/* Motion follows user preferences and runs only during input. */
-const motionButton=document.createElement('button');motionButton.className='motion-toggle';motionButton.type='button';$('.footer-bottom').appendChild(motionButton);
-function applyMotion(){document.documentElement.classList.toggle('motion',!motionOff);document.documentElement.dataset.motion=motionOff?'off':'on';motionButton.textContent=motionOff?'Motion off':'Motion on';motionButton.setAttribute('aria-pressed',String(!motionOff));if(motionOff){document.getAnimations().forEach(a=>a.cancel());}else observeReveals();}
-motionButton.addEventListener('click',()=>{motionOff=!motionOff;applyMotion();try{localStorage.setItem('alinea-motion',motionOff?'off':'on');}catch{}});
-reduced.addEventListener('change',()=>{motionOff=reduced.matches;applyMotion();});
-applyMotion();
-let ticking=false;
-function updateProgress(){const max=document.documentElement.scrollHeight-innerHeight;document.documentElement.style.setProperty('--progress',max>0?scrollY/max:0);ticking=false;}
-addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(updateProgress);}},{passive:true});
-addEventListener('resize',updateProgress);updateProgress();
 
 /* Scope guide: illustrative ranges and examples, carried into the contact brief. */
 const scopeRoot=$('#scopeDetails');
@@ -172,56 +258,100 @@ if(form){
  scopeSelect.addEventListener('change',showChoice);showChoice();
 }
 
-/* Slow, autonomous color drift. Random paths are chosen once per page load. */
-$$('.ambient-wash i').forEach((layer,index)=>{
- const random=(a,b)=>a+Math.random()*(b-a);
- layer.style.setProperty('--start-x',`${random(-22,12).toFixed(1)}%`);
- layer.style.setProperty('--start-y',`${random(-20,10).toFixed(1)}%`);
- layer.style.setProperty('--end-x',`${random(12,36).toFixed(1)}%`);
- layer.style.setProperty('--end-y',`${random(15,38).toFixed(1)}%`);
- layer.style.setProperty('--drift-time',`${random(55,95).toFixed(1)}s`);
- layer.style.setProperty('--drift-delay',`${-random(0,70).toFixed(1)}s`);
-});
-document.addEventListener('visibilitychange',()=>document.documentElement.toggleAttribute('data-paused',document.hidden));
 
-/* Logo motion: muted, inline, with reduced-motion and visibility support. */
-const logoVideo=document.querySelector('[data-logo-video]');
-const logoControl=document.querySelector('[data-logo-control]');
-if(logoVideo && logoControl){
- let manuallyPaused=false;
- const syncLabel=()=>{logoControl.textContent=logoVideo.paused?'Play logo motion':'Pause logo motion';logoControl.setAttribute('aria-pressed',String(!logoVideo.paused));};
- const playLogo=()=>{if(!motionOff&&!manuallyPaused&&!document.hidden)logoVideo.play().catch(syncLabel);};
- logoControl.addEventListener('click',()=>{if(logoVideo.paused){manuallyPaused=false;logoVideo.play().catch(syncLabel);}else{manuallyPaused=true;logoVideo.pause();}});
- logoVideo.addEventListener('play',syncLabel);logoVideo.addEventListener('pause',syncLabel);
- logoVideo.addEventListener('error',()=>{logoVideo.hidden=true;document.querySelector('.logo-video-fallback').hidden=false;logoControl.hidden=true;});
- document.addEventListener('visibilitychange',()=>{if(document.hidden)logoVideo.pause();else playLogo();});
- reduced.addEventListener('change',()=>{if(reduced.matches)logoVideo.pause();else playLogo();});
- motionButton.addEventListener('click',()=>{if(motionOff)logoVideo.pause();else playLogo();});
- syncLabel();playLogo();
+/* ─── MOTION ─── */
+// One switch in the footer turns every ambient animation off.
+const motionButton = document.createElement('button');
+motionButton.className = 'motion-toggle'; motionButton.type = 'button';
+$('.footer-bottom').appendChild(motionButton);
+function applyMotion() {
+  root.classList.toggle('motion', !motionOff);
+  root.dataset.motion = motionOff ? 'off' : 'on';
+  motionButton.textContent = motionOff ? 'Motion off' : 'Motion on';
+  motionButton.setAttribute('aria-pressed', String(!motionOff));
+  onScroll();
+}
+motionButton.addEventListener('click', () => { motionOff = !motionOff; applyMotion(); try { localStorage.setItem('alinea-motion', motionOff ? 'off' : 'on'); } catch {} });
+reduced.addEventListener('change', () => { motionOff = reduced.matches; applyMotion(); });
+
+// Scroll: progress line, nav, and the "hello to kickoff" path.
+const path = $('#path');
+let lastY = scrollY, frame = 0;
+function onScroll() {
+  frame = 0;
+  const y = scrollY, max = root.scrollHeight - innerHeight;
+  root.style.setProperty('--progress', max > 0 ? (y / max).toFixed(4) : 0);
+  if (!nav.classList.contains('menu-open')) {
+    if (y > 500 && y > lastY + 4 && !nav.contains(document.activeElement)) nav.classList.add('is-away');
+    if (y < lastY - 4 || y < 200) nav.classList.remove('is-away');
+  }
+  lastY = y;
+  if (path) {
+    const r = path.getBoundingClientRect();
+    const p = motionOff ? 1 : clamp((innerHeight * .85 - r.top) / (innerHeight * .5), 0, 1);
+    path.style.setProperty('--p', p.toFixed(3));
+    const steps = $$('li', path);
+    steps.forEach((li, i) => li.classList.toggle('is-on', p >= (i + .02) / steps.length));
+  }
+}
+addEventListener('scroll', () => { if (!frame) frame = requestAnimationFrame(onScroll); }, { passive: true });
+addEventListener('resize', onScroll);
+applyMotion();
+
+// Sections draw their rule once, on arrival.
+if ('IntersectionObserver' in window) {
+  const arrive = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.classList.add('in'); arrive.unobserve(entry.target); }
+  }), { rootMargin: '0px 0px -12% 0px' });
+  $$('[data-reveal]').forEach(el => arrive.observe(el));
+} else $$('[data-reveal]').forEach(el => el.classList.add('in'));
+
+// The page's single load sequence.
+requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add('is-loaded')));
+
+// Each wash drifts on its own path, chosen once per page load.
+$$('.wash i').forEach(layer => {
+  const rand = (a, b) => (a + Math.random() * (b - a)).toFixed(1);
+  layer.style.setProperty('--x1', rand(-22, 8) + '%'); layer.style.setProperty('--y1', rand(-20, 8) + '%');
+  layer.style.setProperty('--x2', rand(12, 34) + '%'); layer.style.setProperty('--y2', rand(14, 36) + '%');
+  layer.style.setProperty('--t', rand(55, 95) + 's'); layer.style.setProperty('--d', '-' + rand(0, 70) + 's');
+});
+document.addEventListener('visibilitychange', () => root.toggleAttribute('data-paused', document.hidden));
+
+// Ticker: duplicate the group so the loop is seamless.
+$$('.ticker-track').forEach(track => {
+  const group = track.firstElementChild;
+  const copies = Math.max(1, Math.ceil(innerWidth / Math.max(1, group.offsetWidth)));
+  const total = (copies + 1) % 2 ? copies + 2 : copies + 1;
+  for (let i = 1; i < total; i++) track.appendChild(group.cloneNode(true));
+});
+
+// Home shelf: the project you point at, or tab to, takes the room.
+const shelf = $('#shelf');
+if (shelf) {
+  const items = $$('.shelf-item', shelf);
+  const activate = item => { if (finePointer.matches || innerWidth > 760) items.forEach(el => el.classList.toggle('is-active', el === item)); };
+  items.forEach(item => {
+    item.addEventListener('pointerenter', () => activate(item));
+    item.addEventListener('focusin', () => activate(item));
+  });
 }
 
-/* Native scrolling remains in control; only in-page navigation is animated. */
-document.addEventListener('click',event=>{
- const link=event.target.closest('a[href^="#"]');
- if(!link||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
- const hash=link.getAttribute('href');if(hash.length<2)return;
- const target=document.getElementById(hash.slice(1));if(!target)return;
- event.preventDefault();
- target.scrollIntoView({behavior:motionOff?'instant':'smooth',block:'start'});
- history.pushState(null,'',hash);
- const hadTabindex=target.hasAttribute('tabindex');
- if(!hadTabindex)target.setAttribute('tabindex','-1');
- target.focus({preventScroll:true});
- if(!hadTabindex)target.addEventListener('blur',()=>target.removeAttribute('tabindex'),{once:true});
-});
-
-/* Reveal headings and editorial sections once, without hiding content on failure. */
-if('IntersectionObserver' in window){
- const editorialObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
-  if(entry.isIntersecting){entry.target.classList.add('has-entered');editorialObserver.unobserve(entry.target);}
- }),{threshold:0.08});
- document.querySelectorAll('.section-head,.intro>div,.homepage-feature-copy,.solferino-feature-copy,.story-section,.showcase-chapter header,.team-grid article,.scope-invitation').forEach(el=>{
-  el.classList.add('editorial-reveal');editorialObserver.observe(el);
- });
+// Logo films: muted and inline, paused with motion off or the tab hidden.
+const logoVideo = $('[data-logo-video]'), logoControl = $('[data-logo-control]');
+if (logoVideo && logoControl) {
+  let manuallyPaused = false;
+  const syncLabel = () => { logoControl.textContent = logoVideo.paused ? 'Play logo motion' : 'Pause logo motion'; logoControl.setAttribute('aria-pressed', String(!logoVideo.paused)); };
+  const playLogo = () => { if (!motionOff && !manuallyPaused && !document.hidden) logoVideo.play().catch(syncLabel); };
+  logoControl.addEventListener('click', () => { if (logoVideo.paused) { manuallyPaused = false; logoVideo.play().catch(syncLabel); } else { manuallyPaused = true; logoVideo.pause(); } });
+  logoVideo.addEventListener('play', syncLabel); logoVideo.addEventListener('pause', syncLabel);
+  logoVideo.addEventListener('error', () => { logoControl.hidden = true; });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) logoVideo.pause(); else playLogo(); });
+  motionButton.addEventListener('click', () => { if (motionOff) logoVideo.pause(); else playLogo(); });
+  syncLabel(); playLogo();
 }
-
+const caseVideo = $('[data-case-video]');
+if (caseVideo) {
+  if (motionOff) caseVideo.pause();
+  motionButton.addEventListener('click', () => { if (motionOff) caseVideo.pause(); else caseVideo.play().catch(() => {}); });
+}
